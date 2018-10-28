@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Bar } from 'react-chartjs-2';
+import { connect } from 'react-redux';
+import { nextIteration } from '../../store/actions/chartActions';
 
-const VerticalBar = props => {
-  const data = {
+class VerticalBar extends Component {
+  data = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
       {
@@ -17,11 +19,23 @@ const VerticalBar = props => {
     ]
   };
 
-  const options = {
+  options = {
     maintainAspectRatio: false
   };
 
-  return <Bar data={data} width={100} height={500} options={options} />;
+  render() {
+    console.log(this.props.getNextArray([2, 3, 4], 2));
+    return <Bar data={this.data} width={100} height={500} options={this.options} onElementsClick={this.handleClick} />;
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getNextArray: (array, currentIteration) => dispatch(nextIteration(array, currentIteration))
+  };
 };
 
-export default VerticalBar;
+export default connect(
+  null,
+  mapDispatchToProps
+)(VerticalBar);
