@@ -1,7 +1,9 @@
 export const nextIteration = (array, currentIteration) => {
   return (dispatch, getState) => {
-    later(2000)
-      .then(() => dispatch({ type: 'NEXT_ITERATION', payload: { array, currentIteration } }))
+    later(1000)
+      .then(() => {
+        dispatch({ type: 'NEXT_ITERATION', payload: { array, currentIteration } });
+      })
       .catch(err => console.log(err));
   };
 };
