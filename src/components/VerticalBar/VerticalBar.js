@@ -4,10 +4,16 @@ import { connect } from 'react-redux';
 import { nextIteration } from '../../store/actions/chartActions';
 
 class VerticalBar extends Component {
-  state = { array: [] };
+  state = { array: [], length: this.props.length, currentIteration: 1, done: false };
+
+  componentWillReceiveProps(props) {
+    this.setState({ length: props.length });
+  }
 
   options = {
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    animation: false
+    // animationSteps: 1000
   };
 
   handleClick = e => {
@@ -15,8 +21,11 @@ class VerticalBar extends Component {
   };
 
   render() {
+    if (!this.props.done) this.props.getNextArray(this.props.array, this.props.currentIteration);
+    // console.log(JSON.stringify(this.props.array));
+    const labs = new Array(this.state.length).fill('number');
     const data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: [...labs],
       datasets: [
         {
           label: 'My First dataset',
@@ -30,7 +39,6 @@ class VerticalBar extends Component {
       ]
     };
 
-    this.props.getNextArray(this.state.array, 3);
     return (
       <div>
         <Bar data={data} width={100} height={500} options={this.options} />
@@ -41,8 +49,12 @@ class VerticalBar extends Component {
 }
 
 const mapStateToProps = state => {
+  // console.log('map' + JSON.stringify(state));
   return {
-    array: state.chart.array
+    array: state.chart.array,
+    length: state.chart.length,
+    currentIteration: state.chart.currentIteration,
+    done: state.chart.done
   };
 };
 
