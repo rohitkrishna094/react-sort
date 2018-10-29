@@ -1,6 +1,6 @@
-const length = 999;
+const length = 100;
 const tempArray = Array.from({ length }, () => Math.random() * 40);
-const initialState = { array: tempArray, length, currentIteration: 1, done: false };
+const initialState = { array: tempArray, length, currentIteration: 1, done: false, pause: false };
 
 const chartReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -12,6 +12,8 @@ const chartReducer = (state = initialState, action) => {
         status = true;
       }
       return { ...state, array: newArray, currentIteration: state.currentIteration + 1, done: status };
+    case 'PAUSE_ITERATION':
+      return { ...state, pause: !state.pause };
     default:
       return state;
   }

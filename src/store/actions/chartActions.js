@@ -1,10 +1,18 @@
+export const pauseProcess = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: 'PAUSE_ITERATION', payload: { pause: getState().chart.pause } });
+  };
+};
+
 export const nextIteration = (array, currentIteration) => {
   return (dispatch, getState) => {
-    later(0.1)
-      .then(() => {
-        dispatch({ type: 'NEXT_ITERATION', payload: { array, currentIteration } });
-      })
-      .catch(err => console.log(err));
+    if (!getState().chart.pause) {
+      later(100)
+        .then(() => {
+          dispatch({ type: 'NEXT_ITERATION', payload: { array, currentIteration } });
+        })
+        .catch(err => console.log(err));
+    }
   };
 };
 

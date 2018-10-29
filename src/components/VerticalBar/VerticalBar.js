@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { connect } from 'react-redux';
 import { nextIteration } from '../../store/actions/chartActions';
+import { pauseProcess } from '../../store/actions/chartActions';
 
 class VerticalBar extends Component {
   state = { array: [], currentIteration: 1, done: false };
@@ -16,7 +17,7 @@ class VerticalBar extends Component {
     if (!props.done) {
       props.getNextArray(props.array, props.currentIteration);
     } else {
-      console.log('done');
+      // console.log('done');
     }
   }
 
@@ -28,6 +29,7 @@ class VerticalBar extends Component {
 
   handleClick = e => {
     // console.log('Clicked', this.props);
+    this.props.pauseProcess();
   };
 
   render() {
@@ -62,13 +64,15 @@ const mapStateToProps = state => {
     array: state.chart.array,
     length: state.chart.length,
     currentIteration: state.chart.currentIteration,
-    done: state.chart.done
+    done: state.chart.done,
+    pause: state.chart.pause
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getNextArray: (array, currentIteration) => dispatch(nextIteration(array, currentIteration))
+    getNextArray: (array, currentIteration) => dispatch(nextIteration(array, currentIteration)),
+    pauseProcess: () => dispatch(pauseProcess())
   };
 };
 
