@@ -1,6 +1,6 @@
 export const nextIteration = (array, currentIteration) => {
   return (dispatch, getState) => {
-    later(300)
+    later(0.1)
       .then(() => {
         dispatch({ type: 'NEXT_ITERATION', payload: { array, currentIteration } });
       })

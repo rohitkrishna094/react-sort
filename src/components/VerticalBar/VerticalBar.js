@@ -4,10 +4,20 @@ import { connect } from 'react-redux';
 import { nextIteration } from '../../store/actions/chartActions';
 
 class VerticalBar extends Component {
-  state = { array: [], length: this.props.length, currentIteration: 1, done: false };
+  state = { array: [], currentIteration: 1, done: false };
+
+  componentDidMount() {
+    if (!this.props.done) {
+      this.props.getNextArray(this.props.array, this.props.currentIteration);
+    }
+  }
 
   componentWillReceiveProps(props) {
-    this.setState({ length: props.length });
+    if (!props.done) {
+      props.getNextArray(props.array, props.currentIteration);
+    } else {
+      console.log('done');
+    }
   }
 
   options = {
@@ -21,9 +31,7 @@ class VerticalBar extends Component {
   };
 
   render() {
-    if (!this.props.done) this.props.getNextArray(this.props.array, this.props.currentIteration);
-    // console.log(JSON.stringify(this.props.array));
-    const labs = new Array(this.state.length).fill('number');
+    const labs = new Array(this.props.length).fill('number');
     const data = {
       labels: [...labs],
       datasets: [
