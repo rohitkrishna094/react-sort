@@ -5,25 +5,56 @@ import { nextIteration } from '../../store/actions/chartActions';
 import { pauseProcess } from '../../store/actions/chartActions';
 
 class Donut extends Component {
-  state = { array: [], currentIteration: 1, done: false };
+  state = {
+    array: [],
+    currentIteration: 1,
+    done: false,
+    cleanUp: false,
+    currentCleanupLength: 1,
+    finishArray: [],
+    delay: 0
+    // arrayLength: 100
+  };
 
   componentDidMount() {
-    if (!this.props.done) {
-      this.props.getNextArray(this.props.array, this.props.currentIteration);
-    }
+    // if (!this.props.done) {
+    //   this.props.getNextArray(this.props.array, this.props.currentIteration, this.state.delay);
+    // }
   }
 
+  handlePause = e => {
+    if (!this.props.done) {
+      this.props.getNextArray(this.props.array, this.props.currentIteration, this.state.delay);
+    }
+    this.props.pauseProcess();
+  };
+
   componentWillReceiveProps(props) {
-    if (!props.done) {
-      props.getNextArray(props.array, props.currentIteration);
+    let timer;
+    if (props.done && this.state.cleanUp) {
+      clearInterval(timer);
+    } else if (!props.done) {
+      props.getNextArray(props.array, props.currentIteration, this.state.delay);
     } else {
-      console.log('done');
+      timer = setInterval(() => {
+        let finishArray = new Array(this.state.currentCleanupLength).fill(true);
+        this.setState({
+          currentCleanupLength: this.state.currentCleanupLength + 1,
+          finishArray
+        });
+        if (finishArray.length > props.length) clearInterval(timer);
+      }, this.state.delay);
     }
   }
 
   options = {
     maintainAspectRatio: false,
-    animation: false,
+    animation: {
+      duration: this.state.delay,
+      easing: 'linear',
+      rotate: true,
+      scale: false
+    },
     legend: {
       display: false
     },
@@ -37,12 +68,6 @@ class Donut extends Component {
         }
       ]
     }
-    // animationSteps: 1000
-  };
-
-  handleClick = e => {
-    // console.log('Clicked', this.props);
-    this.props.pauseProcess();
   };
 
   render() {
@@ -52,11 +77,19 @@ class Donut extends Component {
     const finishColor = 'green';
     const colors = new Array(this.props.length).fill(defaultColor);
 
-    this.props.indices.forEach((el, i) => {
-      if (el === true) colors[i] = actionColor;
-      else if (this.props.done) colors[i] = finishColor;
-      else colors[i] = defaultColor;
-    });
+    if (!this.props.done) {
+      this.props.indices.forEach((el, i) => {
+        if (el === true) colors[i] = actionColor;
+        else colors[i] = defaultColor;
+      });
+    } else {
+      this.props.indices.forEach((el, i) => {
+        colors[i] = defaultColor;
+      });
+      this.state.finishArray.forEach((el, i) => {
+        colors[i] = finishColor;
+      });
+    }
 
     const data = {
       labels: [...labs],
@@ -76,7 +109,7 @@ class Donut extends Component {
     return (
       <div>
         <Doughnut data={data} width={100} height={500} options={this.options} />
-        <button onClick={this.handleClick}>Click Me</button>
+        <button onClick={this.handlePause}>{this.props.pause ? 'Start' : 'Pause'}</button>
       </div>
     );
   }
@@ -96,7 +129,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getNextArray: (array, currentIteration) => dispatch(nextIteration(array, currentIteration)),
+    getNextArray: (array, currentIteration, delay) => dispatch(nextIteration(array, currentIteration, delay)),
     pauseProcess: () => dispatch(pauseProcess())
   };
 };

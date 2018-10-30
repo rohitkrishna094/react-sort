@@ -12,7 +12,7 @@ class VerticalBar extends Component {
     cleanUp: false,
     currentCleanupLength: 1,
     finishArray: [],
-    delay: 1
+    delay: 0
     // arrayLength: 100
   };
 
@@ -50,7 +50,7 @@ class VerticalBar extends Component {
   options = {
     maintainAspectRatio: false,
     animation: {
-      duration: 1000,
+      duration: this.state.delay,
       easing: 'linear',
       rotate: true,
       scale: false
