@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { nextIteration } from '../../store/actions/chartActions';
 import { pauseProcess } from '../../store/actions/chartActions';
 
-class Doughnut extends Component {
+class Donut extends Component {
   state = { array: [], currentIteration: 1, done: false };
 
   componentDidMount() {
@@ -82,4 +82,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Doughnut);
+)(Donut);
