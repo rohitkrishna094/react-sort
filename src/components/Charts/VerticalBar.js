@@ -12,7 +12,7 @@ class VerticalBar extends Component {
     cleanUp: false,
     currentCleanupLength: 1,
     finishArray: [],
-    delay: 0
+    delay: 1
     // arrayLength: 100
   };
 
@@ -50,7 +50,7 @@ class VerticalBar extends Component {
   options = {
     maintainAspectRatio: false,
     animation: {
-      duration: this.state.delay,
+      duration: 50 || this.state.delay,
       easing: 'linear',
       rotate: true,
       scale: false
@@ -68,6 +68,10 @@ class VerticalBar extends Component {
         }
       ]
     }
+  };
+
+  handleChange = (event, value) => {
+    this.setState({ value });
   };
 
   render() {
@@ -106,10 +110,20 @@ class VerticalBar extends Component {
       ]
     };
 
+    const rStyle = {
+      width: '10%',
+      'margin-left': '10px'
+    };
+
     return (
       <div>
         <Bar data={data} width={100} height={500} options={this.options} />
-        <button onClick={this.handlePause}>{this.props.pause ? 'Start' : 'Pause'}</button>
+        <div>
+          <button className="waves-effect waves-light btn" onClick={this.handlePause}>
+            {this.props.pause ? 'Start' : 'Pause'}
+          </button>
+          <input style={rStyle} type="range" id="test5" min="0" max="100" />
+        </div>
       </div>
     );
   }
