@@ -17,7 +17,7 @@ class Donut extends Component {
     if (!props.done) {
       props.getNextArray(props.array, props.currentIteration);
     } else {
-      // console.log('done');
+      console.log('done');
     }
   }
 
@@ -26,6 +26,15 @@ class Donut extends Component {
     animation: false,
     legend: {
       display: false
+    },
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: false
+          }
+        }
+      ]
     }
     // animationSteps: 1000
   };
@@ -38,10 +47,13 @@ class Donut extends Component {
   render() {
     const labs = new Array(this.props.length).fill('number');
     const defaultColor = 'rgba(255,99,132,0.2)';
+    const actionColor = 'blue';
+    const finishColor = 'green';
     const colors = new Array(this.props.length).fill(defaultColor);
 
     this.props.indices.forEach((el, i) => {
-      if (el === true) colors[i] = 'blue';
+      if (el === true) colors[i] = actionColor;
+      else if (this.props.done) colors[i] = finishColor;
       else colors[i] = defaultColor;
     });
 

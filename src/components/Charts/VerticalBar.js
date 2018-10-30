@@ -40,7 +40,6 @@ class VerticalBar extends Component {
   };
 
   handleClick = e => {
-    // console.log('Clicked', this.props);
     this.props.pauseProcess();
   };
 
