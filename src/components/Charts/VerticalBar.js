@@ -12,7 +12,8 @@ class VerticalBar extends Component {
     cleanUp: false,
     currentCleanupLength: 1,
     finishArray: [],
-    delay: 1
+    delay: 0,
+    animDuration: 0
     // arrayLength: 100
   };
 
@@ -50,7 +51,7 @@ class VerticalBar extends Component {
   options = {
     maintainAspectRatio: false,
     animation: {
-      duration: 50 || this.state.delay,
+      duration: this.state.animDuration,
       easing: 'linear',
       rotate: true,
       scale: false
@@ -70,11 +71,19 @@ class VerticalBar extends Component {
     }
   };
 
-  handleChange = (event, value) => {
-    this.setState({ value });
+  handleAnimChange = e => {
+    this.setState({ animDuration: e.target.value });
+  };
+
+  handleTimeChange = e => {
+    this.setState({ delay: e.target.value });
   };
 
   render() {
+    console.log(this.state.animDuration);
+    let newOptions = JSON.parse(JSON.stringify(this.options));
+    newOptions.animation.duration = this.state.animDuration;
+
     const labs = new Array(this.props.length).fill('number');
     const defaultColor = 'rgba(255,99,132,0.2)';
     const actionColor = 'blue';
@@ -112,17 +121,24 @@ class VerticalBar extends Component {
 
     const rStyle = {
       width: '10%',
-      'margin-left': '10px'
+      marginLeft: '10px'
     };
 
     return (
       <div>
-        <Bar data={data} width={100} height={500} options={this.options} />
+        <Bar data={data} width={100} height={500} options={newOptions} />
         <div>
           <button className="waves-effect waves-light btn" onClick={this.handlePause}>
             {this.props.pause ? 'Start' : 'Pause'}
           </button>
-          <input style={rStyle} type="range" id="test5" min="0" max="100" />
+          <label htmlFor="animationSlider" style={rStyle}>
+            Animation Duration
+          </label>
+          <input style={rStyle} type="range" id="animationSlider" min="0" max="500" onChange={this.handleAnimChange} />
+          <label htmlFor="timeSlider" style={rStyle}>
+            Time interval
+          </label>
+          <input style={rStyle} type="range" id="timeSlider" min="0" max="500" onChange={this.handleTimeChange} />
         </div>
       </div>
     );
