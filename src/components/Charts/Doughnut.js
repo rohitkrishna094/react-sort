@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Bar, Doughnut } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 import { connect } from 'react-redux';
 import { nextIteration } from '../../store/actions/chartActions';
 import { pauseProcess } from '../../store/actions/chartActions';
 
-class VerticalBar extends Component {
+class Doughnut extends Component {
   state = { array: [], currentIteration: 1, done: false };
 
   componentDidMount() {
@@ -82,4 +82,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(VerticalBar);
+)(Doughnut);

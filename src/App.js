@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import VerticalBar from './components/VerticalBar/VerticalBar';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './store/reducers/rootReducer';
+
+import VerticalBar from './components/Charts/VerticalBar';
 
 const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
 
