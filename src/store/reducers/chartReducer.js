@@ -1,12 +1,11 @@
-const length = 10;
+const length = 100;
 const tempArray = Array.from({ length }, () => Math.random() * 40);
-// const tempArray = [3, 5, 8, 4, 1, 9, -2];
 const initialState = {
   array: tempArray,
   length: tempArray.length,
   currentIteration: 1,
   done: false,
-  pause: false,
+  pause: true,
   indices: []
 };
 

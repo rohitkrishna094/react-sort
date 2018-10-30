@@ -11,21 +11,30 @@ class VerticalBar extends Component {
     done: false,
     cleanUp: false,
     currentCleanupLength: 1,
-    finishArray: []
+    finishArray: [],
+    delay: 1
+    // arrayLength: 100
   };
 
   componentDidMount() {
-    if (!this.props.done) {
-      this.props.getNextArray(this.props.array, this.props.currentIteration);
-    }
+    // if (!this.props.done) {
+    //   this.props.getNextArray(this.props.array, this.props.currentIteration, this.state.delay);
+    // }
   }
+
+  handlePause = e => {
+    if (!this.props.done) {
+      this.props.getNextArray(this.props.array, this.props.currentIteration, this.state.delay);
+    }
+    this.props.pauseProcess();
+  };
 
   componentWillReceiveProps(props) {
     let timer;
     if (props.done && this.state.cleanUp) {
       clearInterval(timer);
     } else if (!props.done) {
-      props.getNextArray(props.array, props.currentIteration);
+      props.getNextArray(props.array, props.currentIteration, this.state.delay);
     } else {
       timer = setInterval(() => {
         let finishArray = new Array(this.state.currentCleanupLength).fill(true);
@@ -34,13 +43,18 @@ class VerticalBar extends Component {
           finishArray
         });
         if (finishArray.length > props.length) clearInterval(timer);
-      }, 100);
+      }, this.state.delay);
     }
   }
 
   options = {
     maintainAspectRatio: false,
-    animation: false,
+    animation: {
+      duration: 1000,
+      easing: 'linear',
+      rotate: true,
+      scale: false
+    },
     legend: {
       display: false
     },
@@ -54,11 +68,6 @@ class VerticalBar extends Component {
         }
       ]
     }
-    // animationSteps: 1000
-  };
-
-  handleClick = e => {
-    this.props.pauseProcess();
   };
 
   render() {
@@ -100,7 +109,7 @@ class VerticalBar extends Component {
     return (
       <div>
         <Bar data={data} width={100} height={500} options={this.options} />
-        <button onClick={this.handleClick}>Click Me</button>
+        <button onClick={this.handlePause}>{this.props.pause ? 'Start' : 'Pause'}</button>
       </div>
     );
   }
@@ -120,7 +129,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getNextArray: (array, currentIteration) => dispatch(nextIteration(array, currentIteration)),
+    getNextArray: (array, currentIteration, delay) => dispatch(nextIteration(array, currentIteration, delay)),
     pauseProcess: () => dispatch(pauseProcess())
   };
 };

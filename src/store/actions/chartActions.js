@@ -4,10 +4,10 @@ export const pauseProcess = () => {
   };
 };
 
-export const nextIteration = (array, currentIteration) => {
+export const nextIteration = (array, currentIteration, delay) => {
   return (dispatch, getState) => {
     if (!getState().chart.pause) {
-      later(0)
+      later(delay)
         .then(() => {
           dispatch({ type: 'NEXT_ITERATION', payload: { array, currentIteration } });
         })
