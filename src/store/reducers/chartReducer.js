@@ -1,22 +1,33 @@
-const length = 300;
+const length = 400;
 const tempArray = Array.from({ length }, () => Math.random() * 40);
-const initialState = { array: tempArray, length, currentIteration: 1, done: false, pause: false };
+const initialState = { array: tempArray, length, currentIteration: 1, done: false, pause: false, indices: [] };
 
 const chartReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'NEXT_ITERATION':
       let newArray = [...action.payload.array];
+      let oldArray = [...action.payload.array];
       bubbleSort(newArray, action.payload.currentIteration);
+      let indices = getDiff(oldArray, newArray);
       let status = false;
       if (isSorted(newArray)) {
         status = true;
       }
-      return { ...state, array: newArray, currentIteration: state.currentIteration + 1, done: status };
+      return { ...state, array: newArray, currentIteration: state.currentIteration + 1, done: status, indices };
     case 'PAUSE_ITERATION':
       return { ...state, pause: !state.pause };
     default:
       return state;
   }
+};
+
+const getDiff = (a, b) => {
+  const res = [];
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] === b[i]) res[i] = false;
+    else res[i] = true;
+  }
+  return res;
 };
 
 const bubbleSort = (arr, iter) => {

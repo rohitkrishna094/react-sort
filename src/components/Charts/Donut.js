@@ -37,12 +37,20 @@ class Donut extends Component {
 
   render() {
     const labs = new Array(this.props.length).fill('number');
+    const defaultColor = 'rgba(255,99,132,0.2)';
+    const colors = new Array(this.props.length).fill(defaultColor);
+
+    this.props.indices.forEach((el, i) => {
+      if (el === true) colors[i] = 'blue';
+      else colors[i] = defaultColor;
+    });
+
     const data = {
       labels: [...labs],
       datasets: [
         {
           label: 'My First dataset',
-          backgroundColor: 'rgba(255,99,132,0.2)',
+          backgroundColor: [...colors],
           borderColor: 'rgba(255,99,132,1)',
           borderWidth: 1,
           hoverBackgroundColor: 'rgba(255,99,132,0.4)',
@@ -68,7 +76,8 @@ const mapStateToProps = state => {
     length: state.chart.length,
     currentIteration: state.chart.currentIteration,
     done: state.chart.done,
-    pause: state.chart.pause
+    pause: state.chart.pause,
+    indices: state.chart.indices
   };
 };
 
