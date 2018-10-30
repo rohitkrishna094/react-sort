@@ -1,13 +1,30 @@
-const length = 400;
+const length = 100;
 const tempArray = Array.from({ length }, () => Math.random() * 40);
-const initialState = { array: tempArray, length, currentIteration: 1, done: false, pause: false, indices: [] };
+// const tempArray = [3, 5, 8, 4, 1, 9, -2];
+const initialState = {
+  array: tempArray,
+  length: tempArray.length,
+  currentIteration: 1,
+  done: false,
+  pause: false,
+  indices: []
+};
+
+const genForLoop = bubbleSort(tempArray, 0);
 
 const chartReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'NEXT_ITERATION':
       let newArray = [...action.payload.array];
       let oldArray = [...action.payload.array];
-      bubbleSort(newArray, action.payload.currentIteration);
+      // bubbleSort(newArray, action.payload.currentIteration);
+      let result;
+      if (!(result = genForLoop.next()).done) {
+        newArray = result.value;
+      } else {
+        newArray = tempArray;
+      }
+      // console.log(newArray);
       let indices = getDiff(oldArray, newArray);
       let status = false;
       if (isSorted(newArray)) {
@@ -30,19 +47,31 @@ const getDiff = (a, b) => {
   return res;
 };
 
-const bubbleSort = (arr, iter) => {
-  let count = 0;
+// const bubbleSort = (arr, iter) => {
+//   let count = 0;
+//   for (let i = 0; i < arr.length - 1; i++) {
+//     for (let j = 0; j < arr.length - i - 1; j++) {
+//       if (iter === count) return arr;
+//       count++;
+//       console.log(arr[j], arr[j + 1]);
+//       if (arr[j] > arr[j + 1]) {
+//         swap(arr, j, j + 1);
+//       }
+//     }
+//   }
+//   return arr;
+// };
+
+function* bubbleSort(arr, iter) {
   for (let i = 0; i < arr.length - 1; i++) {
     for (let j = 0; j < arr.length - i - 1; j++) {
-      if (iter === count) return arr;
-      count++;
+      yield arr;
       if (arr[j] > arr[j + 1]) {
         swap(arr, j, j + 1);
       }
     }
   }
-  return arr;
-};
+}
 
 // const bubbleSort = (arr, n) => {
 //   for (let x = 0; x < n; x++) {

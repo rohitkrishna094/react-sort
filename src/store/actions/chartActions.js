@@ -7,7 +7,7 @@ export const pauseProcess = () => {
 export const nextIteration = (array, currentIteration) => {
   return (dispatch, getState) => {
     if (!getState().chart.pause) {
-      later(100)
+      later(0)
         .then(() => {
           dispatch({ type: 'NEXT_ITERATION', payload: { array, currentIteration } });
         })

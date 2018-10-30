@@ -26,6 +26,15 @@ class VerticalBar extends Component {
     animation: false,
     legend: {
       display: false
+    },
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: false
+          }
+        }
+      ]
     }
     // animationSteps: 1000
   };
