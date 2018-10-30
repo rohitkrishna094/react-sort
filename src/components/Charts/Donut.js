@@ -28,6 +28,7 @@ class Donut extends Component {
       display: false
     },
     scales: {
+      xAxes: [{ display: false }],
       yAxes: [
         {
           ticks: {

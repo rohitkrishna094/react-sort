@@ -5,7 +5,14 @@ import { nextIteration } from '../../store/actions/chartActions';
 import { pauseProcess } from '../../store/actions/chartActions';
 
 class VerticalBar extends Component {
-  state = { array: [], currentIteration: 1, done: false };
+  state = {
+    array: [],
+    currentIteration: 1,
+    done: false,
+    cleanUp: false,
+    currentCleanupLength: 1,
+    finishArray: []
+  };
 
   componentDidMount() {
     if (!this.props.done) {
@@ -14,10 +21,20 @@ class VerticalBar extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if (!props.done) {
+    let timer;
+    if (props.done && this.state.cleanUp) {
+      clearInterval(timer);
+    } else if (!props.done) {
       props.getNextArray(props.array, props.currentIteration);
     } else {
-      console.log('done');
+      timer = setInterval(() => {
+        let finishArray = new Array(this.state.currentCleanupLength).fill(true);
+        this.setState({
+          currentCleanupLength: this.state.currentCleanupLength + 1,
+          finishArray
+        });
+        if (finishArray.length > props.length) clearInterval(timer);
+      }, 100);
     }
   }
 
@@ -28,6 +45,7 @@ class VerticalBar extends Component {
       display: false
     },
     scales: {
+      xAxes: [{ display: false }],
       yAxes: [
         {
           ticks: {
@@ -46,12 +64,23 @@ class VerticalBar extends Component {
   render() {
     const labs = new Array(this.props.length).fill('number');
     const defaultColor = 'rgba(255,99,132,0.2)';
+    const actionColor = 'blue';
+    const finishColor = 'green';
     const colors = new Array(this.props.length).fill(defaultColor);
 
-    this.props.indices.forEach((el, i) => {
-      if (el === true) colors[i] = 'blue';
-      else colors[i] = defaultColor;
-    });
+    if (!this.props.done) {
+      this.props.indices.forEach((el, i) => {
+        if (el === true) colors[i] = actionColor;
+        else colors[i] = defaultColor;
+      });
+    } else {
+      this.props.indices.forEach((el, i) => {
+        colors[i] = defaultColor;
+      });
+      this.state.finishArray.forEach((el, i) => {
+        colors[i] = finishColor;
+      });
+    }
 
     const data = {
       labels: [...labs],

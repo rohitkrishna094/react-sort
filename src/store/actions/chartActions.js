@@ -16,6 +16,12 @@ export const nextIteration = (array, currentIteration) => {
   };
 };
 
+export const doneProcess = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: 'DONE_PROCESS', payload: {} });
+  };
+};
+
 const later = delay => {
   return new Promise(function(resolve) {
     setTimeout(resolve, delay);
