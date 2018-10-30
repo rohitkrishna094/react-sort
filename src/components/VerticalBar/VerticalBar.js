@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Doughnut } from 'react-chartjs-2';
 import { connect } from 'react-redux';
 import { nextIteration } from '../../store/actions/chartActions';
 import { pauseProcess } from '../../store/actions/chartActions';
@@ -23,7 +23,10 @@ class VerticalBar extends Component {
 
   options = {
     maintainAspectRatio: false,
-    animation: false
+    animation: false,
+    legend: {
+      display: false
+    }
     // animationSteps: 1000
   };
 
@@ -51,7 +54,7 @@ class VerticalBar extends Component {
 
     return (
       <div>
-        <Bar data={data} width={100} height={500} options={this.options} />
+        <Doughnut data={data} width={100} height={500} options={this.options} />
         <button onClick={this.handleClick}>Click Me</button>
       </div>
     );

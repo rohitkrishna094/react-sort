@@ -1,4 +1,4 @@
-const length = 100;
+const length = 300;
 const tempArray = Array.from({ length }, () => Math.random() * 40);
 const initialState = { array: tempArray, length, currentIteration: 1, done: false, pause: false };
 
