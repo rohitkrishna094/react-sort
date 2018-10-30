@@ -17,7 +17,7 @@ class VerticalBar extends Component {
     if (!props.done) {
       props.getNextArray(props.array, props.currentIteration);
     } else {
-      // console.log('done');
+      console.log('done');
     }
   }
 

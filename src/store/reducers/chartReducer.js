@@ -1,4 +1,4 @@
-const length = 100;
+const length = 60;
 const tempArray = Array.from({ length }, () => Math.random() * 40);
 // const tempArray = [3, 5, 8, 4, 1, 9, -2];
 const initialState = {
@@ -30,7 +30,13 @@ const chartReducer = (state = initialState, action) => {
       if (isSorted(newArray)) {
         status = true;
       }
-      return { ...state, array: newArray, currentIteration: state.currentIteration + 1, done: status, indices };
+      return {
+        ...state,
+        array: newArray,
+        currentIteration: state.currentIteration + 1,
+        done: status,
+        indices: status ? indices.fill(false) : indices
+      };
     case 'PAUSE_ITERATION':
       return { ...state, pause: !state.pause };
     default:
