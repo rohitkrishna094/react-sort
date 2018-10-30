@@ -80,7 +80,6 @@ class VerticalBar extends Component {
   };
 
   render() {
-    console.log(this.state.animDuration);
     let newOptions = JSON.parse(JSON.stringify(this.options));
     newOptions.animation.duration = this.state.animDuration;
 
@@ -126,7 +125,7 @@ class VerticalBar extends Component {
 
     return (
       <div>
-        <Bar data={data} width={100} height={500} options={newOptions} />
+        <Bar data={data} width={100} height={300} options={newOptions} />
         <div>
           <button className="waves-effect waves-light btn" onClick={this.handlePause}>
             {this.props.pause ? 'Start' : 'Pause'}
@@ -146,7 +145,6 @@ class VerticalBar extends Component {
 }
 
 const mapStateToProps = state => {
-  // console.log('map' + JSON.stringify(state));
   return {
     array: state.chart.array,
     length: state.chart.length,

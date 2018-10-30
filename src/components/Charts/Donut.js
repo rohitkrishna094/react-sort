@@ -12,7 +12,8 @@ class Donut extends Component {
     cleanUp: false,
     currentCleanupLength: 1,
     finishArray: [],
-    delay: 0
+    delay: 0,
+    animDuration: 0
     // arrayLength: 100
   };
 
@@ -50,7 +51,7 @@ class Donut extends Component {
   options = {
     maintainAspectRatio: false,
     animation: {
-      duration: this.state.delay,
+      duration: this.state.animDuration,
       easing: 'linear',
       rotate: true,
       scale: false
@@ -70,7 +71,18 @@ class Donut extends Component {
     }
   };
 
+  handleAnimChange = e => {
+    this.setState({ animDuration: e.target.value });
+  };
+
+  handleTimeChange = e => {
+    this.setState({ delay: e.target.value });
+  };
+
   render() {
+    let newOptions = JSON.parse(JSON.stringify(this.options));
+    newOptions.animation.duration = this.state.animDuration;
+
     const labs = new Array(this.props.length).fill('number');
     const defaultColor = 'rgba(255,99,132,0.2)';
     const actionColor = 'blue';
@@ -106,17 +118,33 @@ class Donut extends Component {
       ]
     };
 
+    const rStyle = {
+      width: '10%',
+      marginLeft: '10px'
+    };
+
     return (
       <div>
-        <Doughnut data={data} width={100} height={500} options={this.options} />
-        <button onClick={this.handlePause}>{this.props.pause ? 'Start' : 'Pause'}</button>
+        <Doughnut data={data} width={100} height={300} options={newOptions} />
+        <div>
+          <button className="waves-effect waves-light btn" onClick={this.handlePause}>
+            {this.props.pause ? 'Start' : 'Pause'}
+          </button>
+          <label htmlFor="animationSlider" style={rStyle}>
+            Animation Duration
+          </label>
+          <input style={rStyle} type="range" id="animationSlider" min="0" max="500" onChange={this.handleAnimChange} />
+          <label htmlFor="timeSlider" style={rStyle}>
+            Time interval
+          </label>
+          <input style={rStyle} type="range" id="timeSlider" min="0" max="500" onChange={this.handleTimeChange} />
+        </div>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  // console.log('map' + JSON.stringify(state));
   return {
     array: state.chart.array,
     length: state.chart.length,
