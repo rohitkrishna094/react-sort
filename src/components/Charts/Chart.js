@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Bar, Doughnut, Bubble, HorizontalBar } from 'react-chartjs-2';
+import { Bar, Doughnut, Bubble, HorizontalBar, Line } from 'react-chartjs-2';
 import { connect } from 'react-redux';
 import { nextIteration } from '../../store/actions/chartActions';
 import { pauseProcess } from '../../store/actions/chartActions';
@@ -7,7 +7,7 @@ import { randomize } from '../../store/actions/chartActions';
 import { restart } from '../../store/actions/chartActions';
 import Select from 'react-select';
 
-class VerticalBar extends Component {
+class Chart extends Component {
   state = {
     array: [],
     currentIteration: 1,
@@ -156,12 +156,6 @@ class VerticalBar extends Component {
     };
 
     let buttonName = this.props.done ? this.redoName : this.props.pause ? 'Start' : 'Pause';
-    // let selectOptions = [
-    //   { value: 'vertical', label: 'VerticalBar' },
-    //   { value: 'donut', label: 'Doughnut' },
-    //   { value: 'bubble', label: 'HorizontalBar' }
-    // ];
-
     let selectOptions = [];
 
     for (const [index, [key, value]] of Object.entries(Object.entries(this.components))) {
@@ -249,4 +243,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(VerticalBar);
+)(Chart);

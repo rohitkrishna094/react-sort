@@ -5,7 +5,7 @@ import thunk from 'redux-thunk';
 import rootReducer from './store/reducers/rootReducer';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 
-import VerticalBar from './components/Charts/VerticalBar';
+import Chart from './components/Charts/Chart';
 import Donut from './components/Charts/Donut';
 
 const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
@@ -17,7 +17,7 @@ class App extends Component {
         <Router>
           <Switch>
             <Route path="/donut" exact={true} component={Donut} />
-            <Route component={VerticalBar} />
+            <Route component={Chart} />
           </Switch>
         </Router>
       </Provider>
