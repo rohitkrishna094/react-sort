@@ -129,7 +129,7 @@ class VerticalBar extends Component {
       marginLeft: '10px'
     };
 
-    console.log(this.state.componentType);
+    let buttonName = this.props.done ? 'Restart?' : this.props.pause ? 'Start' : 'Pause';
     return (
       <div>
         <button
@@ -150,12 +150,12 @@ class VerticalBar extends Component {
 
         <div>
           <button className="waves-effect waves-light btn" onClick={this.handlePause}>
-            {this.props.pause ? 'Start' : 'Pause'}
+            {buttonName}
           </button>
           <label htmlFor="animationSlider" style={rStyle}>
             Animation Duration
           </label>
-          <input style={rStyle} type="range" id="animationSlider" min="0" max="500" onChange={this.handleAnimChange} />
+          <input style={rStyle} type="range" id="animationSlider" min="1" max="500" onChange={this.handleAnimChange} />
           <label htmlFor="timeSlider" style={rStyle}>
             Time interval
           </label>
@@ -166,7 +166,6 @@ class VerticalBar extends Component {
   }
 
   handleChange = e => {
-    console.log('jesd');
     this.setState({ componentType: !this.state.componentType });
   };
 } // end class
