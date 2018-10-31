@@ -118,12 +118,12 @@ class VerticalBar extends Component {
     let newOptions = JSON.parse(JSON.stringify(this.options));
     newOptions.animation.duration = this.state.animDuration;
 
-    const labs = new Array(this.props.length).fill('number');
+    const labs = new Array(this.props.array.length).fill('number');
     const defaultColor = 'rgba(255,99,132,0.2)';
     const actionColor = 'blue';
     const finishColor = 'green';
     const colors = new Array(this.props.array.length).fill(defaultColor);
-
+    // console.log(labs.length);
     if (!this.props.done) {
       this.props.indices.forEach((el, i) => {
         if (el === true) colors[i] = actionColor;
