@@ -122,7 +122,7 @@ class VerticalBar extends Component {
     const defaultColor = 'rgba(255,99,132,0.2)';
     const actionColor = 'blue';
     const finishColor = 'green';
-    const colors = new Array(this.props.length).fill(defaultColor);
+    const colors = new Array(this.props.array.length).fill(defaultColor);
 
     if (!this.props.done) {
       this.props.indices.forEach((el, i) => {
