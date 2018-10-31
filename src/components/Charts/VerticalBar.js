@@ -133,17 +133,17 @@ class VerticalBar extends Component {
     let buttonName = this.props.done ? 'Restart?' : this.props.pause ? 'Start' : 'Pause';
     return (
       <div>
-        <button className="waves-effect waves-light btn" type="button" onClick={this.handleChange}>
+        <a className="waves-effect waves-light btn" onClick={this.handleChange}>
           Dynamic Components
-        </button>
+        </a>
 
-        <button className="waves-effect waves-light btn" type="button" onClick={this.handleRandomize}>
+        <a className="waves-effect waves-light btn" onClick={this.handleRandomize}>
           Randomize Data
-        </button>
+        </a>
 
-        <button className="waves-effect waves-light btn" onClick={this.handlePause}>
+        <a className="waves-effect waves-light btn" onClick={this.handlePause}>
           {buttonName}
-        </button>
+        </a>
 
         <label htmlFor="animationSlider" style={rStyle}>
           Animation Duration

@@ -9,7 +9,7 @@ const initialState = {
   indices: []
 };
 
-let genForLoop = bubbleSort(tempArray, 0);
+let genForLoop = bubbleSort(tempArray);
 
 const chartReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -44,7 +44,7 @@ const chartReducer = (state = initialState, action) => {
     case 'RANDOMIZE':
       console.log('object');
       const randomArray = Array.from({ length }, () => Math.random() * 40);
-      genForLoop = bubbleSort(tempArray, 0);
+      genForLoop = bubbleSort(tempArray);
       return { ...state, array: randomArray };
     default:
       return state;
@@ -60,7 +60,7 @@ const getDiff = (a, b) => {
   return res;
 };
 
-function* bubbleSort(arr, iter) {
+function* bubbleSort(arr) {
   for (let i = 0; i < arr.length - 1; i++) {
     for (let j = 0; j < arr.length - i - 1; j++) {
       yield arr;
