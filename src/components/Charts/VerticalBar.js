@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Bar, Doughnut, Bubble } from 'react-chartjs-2';
+import { Bar, Doughnut, Bubble, HorizontalBar } from 'react-chartjs-2';
 import { connect } from 'react-redux';
 import { nextIteration } from '../../store/actions/chartActions';
 import { pauseProcess } from '../../store/actions/chartActions';
@@ -17,7 +17,7 @@ class VerticalBar extends Component {
     finishArray: [],
     delay: 0,
     animDuration: 0,
-    componentType: false,
+    componentType: 'vertical',
     selectedOption: null
     // arrayLength: 100
   };
@@ -79,13 +79,7 @@ class VerticalBar extends Component {
     },
     scales: {
       xAxes: [{ display: false }],
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: false
-          }
-        }
-      ]
+      yAxes: [{ display: false }]
     }
   };
 
@@ -105,14 +99,14 @@ class VerticalBar extends Component {
     this.props.randomize(this.props.length);
   };
 
-  handleChange = e => {
-    this.setState({ componentType: !this.state.componentType });
+  handleChange = selectedOption => {
+    this.setState({ componentType: selectedOption.value });
   };
 
   components = {
-    vertical: VerticalBar,
+    vertical: Bar,
     donut: Doughnut,
-    bubble: Bubble
+    horizontal: HorizontalBar
   };
 
   redoName = 'Redo?';
@@ -162,11 +156,21 @@ class VerticalBar extends Component {
     };
 
     let buttonName = this.props.done ? this.redoName : this.props.pause ? 'Start' : 'Pause';
-    const selectOptions = [
-      { value: 'vertical', label: 'VerticalBar' },
-      { value: 'donut', label: 'Doughnut' },
-      { value: 'bubble', label: 'Bubble' }
-    ];
+    // let selectOptions = [
+    //   { value: 'vertical', label: 'VerticalBar' },
+    //   { value: 'donut', label: 'Doughnut' },
+    //   { value: 'bubble', label: 'HorizontalBar' }
+    // ];
+
+    let selectOptions = [];
+
+    for (const [index, [key, value]] of Object.entries(Object.entries(this.components))) {
+      selectOptions.push({ value: key, label: key });
+      // console.log(`${index}: ${key} = ${value}`);
+    }
+
+    let ChartComponent = this.components[this.state.componentType];
+
     return (
       <div>
         {/* Dashboard controls */}
@@ -176,7 +180,7 @@ class VerticalBar extends Component {
               value={this.state.selectedOption}
               onChange={this.handleChange}
               options={selectOptions}
-              styles={{}}
+              defaultValue={selectOptions[0]}
             />
           </div>
 
@@ -216,11 +220,7 @@ class VerticalBar extends Component {
           </div>
         </div>
 
-        {this.state.componentType ? (
-          <Doughnut data={data} width={100} height={300} options={newOptions} />
-        ) : (
-          <Bar data={data} width={100} height={300} options={newOptions} />
-        )}
+        <ChartComponent data={data} width={100} height={300} options={newOptions} />
       </div>
     );
   }
