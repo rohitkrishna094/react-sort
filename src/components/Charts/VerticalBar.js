@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Bar, Doughnut } from 'react-chartjs-2';
+import { Bar, Doughnut, Bubble } from 'react-chartjs-2';
 import { connect } from 'react-redux';
 import { nextIteration } from '../../store/actions/chartActions';
 import { pauseProcess } from '../../store/actions/chartActions';
 import { randomize } from '../../store/actions/chartActions';
 import { restart } from '../../store/actions/chartActions';
+import Select from 'react-select';
 
 class VerticalBar extends Component {
   state = {
@@ -16,7 +17,8 @@ class VerticalBar extends Component {
     finishArray: [],
     delay: 0,
     animDuration: 0,
-    componentType: false
+    componentType: false,
+    selectedOption: null
     // arrayLength: 100
   };
 
@@ -109,7 +111,8 @@ class VerticalBar extends Component {
 
   components = {
     vertical: VerticalBar,
-    donut: Doughnut
+    donut: Doughnut,
+    bubble: Bubble
   };
 
   redoName = 'Redo?';
@@ -159,32 +162,59 @@ class VerticalBar extends Component {
     };
 
     let buttonName = this.props.done ? this.redoName : this.props.pause ? 'Start' : 'Pause';
+    const selectOptions = [
+      { value: 'vertical', label: 'VerticalBar' },
+      { value: 'donut', label: 'Doughnut' },
+      { value: 'bubble', label: 'Bubble' }
+    ];
     return (
       <div>
-        <a className="waves-effect waves-light btn" onClick={this.handleChange}>
-          Dynamic Components
-        </a>
+        {/* Dashboard controls */}
+        <div className="row">
+          <div className="col s2">
+            <Select
+              value={this.state.selectedOption}
+              onChange={this.handleChange}
+              options={selectOptions}
+              styles={{}}
+            />
+          </div>
 
-        <a className="waves-effect waves-light btn" onClick={this.handleRandomize}>
-          Randomize Data
-        </a>
-
-        <a className="waves-effect waves-light btn" onClick={this.handlePauseOrRestart}>
-          {buttonName}
-        </a>
-
-        <label htmlFor="lengthSlider" style={rStyle}>
-          Array Length
-        </label>
-        <input style={rStyle} type="range" id="lengthSlider" min="10" max="500" onChange={this.handleLengthChange} />
-        <label htmlFor="animationSlider" style={rStyle}>
-          Animation Duration
-        </label>
-        <input style={rStyle} type="range" id="animationSlider" min="1" max="500" onChange={this.handleAnimChange} />
-        <label htmlFor="timeSlider" style={rStyle}>
-          Time interval
-        </label>
-        <input style={rStyle} type="range" id="timeSlider" min="0" max="500" onChange={this.handleTimeChange} />
+          <div className="col s6">
+            <a className="waves-effect waves-light btn" onClick={this.handleRandomize}>
+              Randomize Data
+            </a>
+            <a className="waves-effect waves-light btn" onClick={this.handlePauseOrRestart}>
+              {buttonName}
+            </a>
+            <label htmlFor="lengthSlider" style={rStyle}>
+              Array Length
+            </label>
+            <input
+              style={rStyle}
+              type="range"
+              id="lengthSlider"
+              min="10"
+              max="500"
+              onChange={this.handleLengthChange}
+            />
+            <label htmlFor="animationSlider" style={rStyle}>
+              Animation Duration
+            </label>
+            <input
+              style={rStyle}
+              type="range"
+              id="animationSlider"
+              min="1"
+              max="500"
+              onChange={this.handleAnimChange}
+            />
+            <label htmlFor="timeSlider" style={rStyle}>
+              Time interval
+            </label>
+            <input style={rStyle} type="range" id="timeSlider" min="0" max="500" onChange={this.handleTimeChange} />
+          </div>
+        </div>
 
         {this.state.componentType ? (
           <Doughnut data={data} width={100} height={300} options={newOptions} />
