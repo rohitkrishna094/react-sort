@@ -1,3 +1,9 @@
+export const randomize = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: 'RANDOMIZE', payload: {} });
+  };
+};
+
 export const pauseProcess = () => {
   return (dispatch, getState) => {
     dispatch({ type: 'PAUSE_ITERATION', payload: { pause: getState().chart.pause } });

@@ -9,7 +9,7 @@ const initialState = {
   indices: []
 };
 
-const genForLoop = bubbleSort(tempArray, 0);
+let genForLoop = bubbleSort(tempArray, 0);
 
 const chartReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -41,6 +41,11 @@ const chartReducer = (state = initialState, action) => {
       // let finLength = this.props.finishIndices.length || 0;
       // return { ...state, finishIndices: new Array(finLength).fi };
       return state;
+    case 'RANDOMIZE':
+      console.log('object');
+      const randomArray = Array.from({ length }, () => Math.random() * 40);
+      genForLoop = bubbleSort(tempArray, 0);
+      return { ...state, array: randomArray };
     default:
       return state;
   }

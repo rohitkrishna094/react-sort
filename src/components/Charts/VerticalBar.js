@@ -3,6 +3,7 @@ import { Bar, Doughnut } from 'react-chartjs-2';
 import { connect } from 'react-redux';
 import { nextIteration } from '../../store/actions/chartActions';
 import { pauseProcess } from '../../store/actions/chartActions';
+import { randomize } from '../../store/actions/chartActions';
 
 class VerticalBar extends Component {
   state = {
@@ -132,38 +133,39 @@ class VerticalBar extends Component {
     let buttonName = this.props.done ? 'Restart?' : this.props.pause ? 'Start' : 'Pause';
     return (
       <div>
-        <button
-          className="waves-effect waves-light btn"
-          type="button"
-          name=""
-          id=""
-          onClick={this.handleChange}
-          value="helo"
-        >
-          CLick me
+        <button className="waves-effect waves-light btn" type="button" onClick={this.handleChange}>
+          Dynamic Components
         </button>
+
+        <button className="waves-effect waves-light btn" type="button" onClick={this.handleRandomize}>
+          Randomize Data
+        </button>
+
+        <button className="waves-effect waves-light btn" onClick={this.handlePause}>
+          {buttonName}
+        </button>
+
+        <label htmlFor="animationSlider" style={rStyle}>
+          Animation Duration
+        </label>
+        <input style={rStyle} type="range" id="animationSlider" min="1" max="500" onChange={this.handleAnimChange} />
+        <label htmlFor="timeSlider" style={rStyle}>
+          Time interval
+        </label>
+        <input style={rStyle} type="range" id="timeSlider" min="0" max="500" onChange={this.handleTimeChange} />
+
         {this.state.componentType ? (
           <Doughnut data={data} width={100} height={300} options={newOptions} />
         ) : (
           <Bar data={data} width={100} height={300} options={newOptions} />
         )}
-
-        <div>
-          <button className="waves-effect waves-light btn" onClick={this.handlePause}>
-            {buttonName}
-          </button>
-          <label htmlFor="animationSlider" style={rStyle}>
-            Animation Duration
-          </label>
-          <input style={rStyle} type="range" id="animationSlider" min="1" max="500" onChange={this.handleAnimChange} />
-          <label htmlFor="timeSlider" style={rStyle}>
-            Time interval
-          </label>
-          <input style={rStyle} type="range" id="timeSlider" min="0" max="500" onChange={this.handleTimeChange} />
-        </div>
       </div>
     );
   }
+
+  handleRandomize = e => {
+    this.props.randomize();
+  };
 
   handleChange = e => {
     this.setState({ componentType: !this.state.componentType });
@@ -184,7 +186,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getNextArray: (array, currentIteration, delay) => dispatch(nextIteration(array, currentIteration, delay)),
-    pauseProcess: () => dispatch(pauseProcess())
+    pauseProcess: () => dispatch(pauseProcess()),
+    randomize: () => dispatch(randomize())
   };
 };
 
