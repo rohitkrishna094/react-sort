@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Doughnut } from 'react-chartjs-2';
 import { connect } from 'react-redux';
 import { nextIteration } from '../../store/actions/chartActions';
 import { pauseProcess } from '../../store/actions/chartActions';
@@ -13,7 +13,8 @@ class VerticalBar extends Component {
     currentCleanupLength: 1,
     finishArray: [],
     delay: 0,
-    animDuration: 0
+    animDuration: 0,
+    componentType: false
     // arrayLength: 100
   };
 
@@ -79,6 +80,11 @@ class VerticalBar extends Component {
     this.setState({ delay: e.target.value });
   };
 
+  components = {
+    vertical: VerticalBar,
+    donut: Doughnut
+  };
+
   render() {
     let newOptions = JSON.parse(JSON.stringify(this.options));
     newOptions.animation.duration = this.state.animDuration;
@@ -123,9 +129,25 @@ class VerticalBar extends Component {
       marginLeft: '10px'
     };
 
+    console.log(this.state.componentType);
     return (
       <div>
-        <Bar data={data} width={100} height={300} options={newOptions} />
+        <button
+          className="waves-effect waves-light btn"
+          type="button"
+          name=""
+          id=""
+          onClick={this.handleChange}
+          value="helo"
+        >
+          CLick me
+        </button>
+        {this.state.componentType ? (
+          <Doughnut data={data} width={100} height={300} options={newOptions} />
+        ) : (
+          <Bar data={data} width={100} height={300} options={newOptions} />
+        )}
+
         <div>
           <button className="waves-effect waves-light btn" onClick={this.handlePause}>
             {this.props.pause ? 'Start' : 'Pause'}
@@ -142,7 +164,12 @@ class VerticalBar extends Component {
       </div>
     );
   }
-}
+
+  handleChange = e => {
+    console.log('jesd');
+    this.setState({ componentType: !this.state.componentType });
+  };
+} // end class
 
 const mapStateToProps = state => {
   return {
