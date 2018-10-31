@@ -4,9 +4,9 @@ export const restart = extraProps => {
   };
 };
 
-export const randomize = () => {
+export const randomize = length => {
   return (dispatch, getState) => {
-    dispatch({ type: 'RANDOMIZE', payload: {} });
+    dispatch({ type: 'RANDOMIZE', payload: { length } });
   };
 };
 

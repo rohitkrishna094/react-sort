@@ -87,12 +87,24 @@ class VerticalBar extends Component {
     }
   };
 
+  handleLengthChange = e => {
+    this.props.randomize(e.target.value);
+  };
+
   handleAnimChange = e => {
     this.setState({ animDuration: e.target.value });
   };
 
   handleTimeChange = e => {
     this.setState({ delay: e.target.value });
+  };
+
+  handleRandomize = e => {
+    this.props.randomize(this.props.length);
+  };
+
+  handleChange = e => {
+    this.setState({ componentType: !this.state.componentType });
   };
 
   components = {
@@ -161,6 +173,10 @@ class VerticalBar extends Component {
           {buttonName}
         </a>
 
+        <label htmlFor="lengthSlider" style={rStyle}>
+          Array Length
+        </label>
+        <input style={rStyle} type="range" id="lengthSlider" min="10" max="500" onChange={this.handleLengthChange} />
         <label htmlFor="animationSlider" style={rStyle}>
           Animation Duration
         </label>
@@ -178,14 +194,6 @@ class VerticalBar extends Component {
       </div>
     );
   }
-
-  handleRandomize = e => {
-    this.props.randomize();
-  };
-
-  handleChange = e => {
-    this.setState({ componentType: !this.state.componentType });
-  };
 } // end class
 
 const mapStateToProps = state => {
@@ -203,7 +211,7 @@ const mapDispatchToProps = dispatch => {
   return {
     getNextArray: (array, currentIteration, delay) => dispatch(nextIteration(array, currentIteration, delay)),
     pauseProcess: () => dispatch(pauseProcess()),
-    randomize: () => dispatch(randomize()),
+    randomize: length => dispatch(randomize(length)),
     restart: payload => dispatch(restart(payload))
   };
 };

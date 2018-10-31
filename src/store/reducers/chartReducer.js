@@ -1,4 +1,4 @@
-const length = 20;
+const length = 200;
 const tempArray = Array.from({ length }, () => Math.random() * 40);
 const initialState = {
   array: tempArray,
@@ -38,7 +38,9 @@ const chartReducer = (state = initialState, action) => {
     case 'PAUSE_ITERATION':
       return { ...state, pause: !state.pause };
     case 'RANDOMIZE':
-      const randomArray = Array.from({ length }, () => Math.random() * 40);
+      let n = action.payload.length || length;
+      console.log(action.payload.length);
+      const randomArray = Array.from({ length: n }, () => Math.random() * 40);
       genForLoop = bubbleSort(tempArray);
       return { ...state, array: randomArray };
     case 'RESTART':
