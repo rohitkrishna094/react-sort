@@ -1,3 +1,9 @@
+export const restart = extraProps => {
+  return (dispatch, getState) => {
+    dispatch({ type: 'RESTART', payload: { ...extraProps } });
+  };
+};
+
 export const randomize = () => {
   return (dispatch, getState) => {
     dispatch({ type: 'RANDOMIZE', payload: {} });

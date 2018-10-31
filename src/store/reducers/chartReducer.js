@@ -1,10 +1,10 @@
-const length = 100;
+const length = 20;
 const tempArray = Array.from({ length }, () => Math.random() * 40);
 const initialState = {
   array: tempArray,
-  length: tempArray.length,
   currentIteration: 1,
   done: false,
+  length: tempArray.length,
   pause: true,
   indices: []
 };
@@ -42,10 +42,13 @@ const chartReducer = (state = initialState, action) => {
       // return { ...state, finishIndices: new Array(finLength).fi };
       return state;
     case 'RANDOMIZE':
-      console.log('object');
       const randomArray = Array.from({ length }, () => Math.random() * 40);
       genForLoop = bubbleSort(tempArray);
       return { ...state, array: randomArray };
+    case 'RESTART':
+      const randomArray1 = Array.from({ length }, () => Math.random() * 40);
+      genForLoop = bubbleSort(tempArray);
+      return { ...initialState, ...action.payload, array: randomArray1 };
     default:
       return state;
   }

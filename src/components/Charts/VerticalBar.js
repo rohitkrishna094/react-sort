@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { nextIteration } from '../../store/actions/chartActions';
 import { pauseProcess } from '../../store/actions/chartActions';
 import { randomize } from '../../store/actions/chartActions';
+import { restart } from '../../store/actions/chartActions';
 
 class VerticalBar extends Component {
   state = {
@@ -25,11 +26,26 @@ class VerticalBar extends Component {
     // }
   }
 
-  handlePause = e => {
-    if (!this.props.done) {
-      this.props.getNextArray(this.props.array, this.props.currentIteration, this.state.delay);
+  handlePauseOrRestart = e => {
+    // console.log(e.target.textContent);
+
+    if (e.target.textContent.toUpperCase() === 'RESTART?') {
+      const payload = {
+        done: false,
+        cleanUp: false,
+        currentCleanupLength: 1,
+        finishArray: [],
+        delay: 0,
+        animDuration: 0,
+        componentType: false
+      };
+      this.props.restart(payload);
+    } else {
+      if (!this.props.done) {
+        this.props.getNextArray(this.props.array, this.props.currentIteration, this.state.delay);
+      }
+      this.props.pauseProcess();
     }
-    this.props.pauseProcess();
   };
 
   componentWillReceiveProps(props) {
@@ -141,7 +157,7 @@ class VerticalBar extends Component {
           Randomize Data
         </a>
 
-        <a className="waves-effect waves-light btn" onClick={this.handlePause}>
+        <a className="waves-effect waves-light btn" onClick={this.handlePauseOrRestart}>
           {buttonName}
         </a>
 
@@ -187,7 +203,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getNextArray: (array, currentIteration, delay) => dispatch(nextIteration(array, currentIteration, delay)),
     pauseProcess: () => dispatch(pauseProcess()),
-    randomize: () => dispatch(randomize())
+    randomize: () => dispatch(randomize()),
+    restart: payload => dispatch(restart(payload))
   };
 };
 
