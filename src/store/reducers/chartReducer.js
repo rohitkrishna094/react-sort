@@ -37,10 +37,6 @@ const chartReducer = (state = initialState, action) => {
       };
     case 'PAUSE_ITERATION':
       return { ...state, pause: !state.pause };
-    case 'DONE_PROCESS':
-      // let finLength = this.props.finishIndices.length || 0;
-      // return { ...state, finishIndices: new Array(finLength).fi };
-      return state;
     case 'RANDOMIZE':
       const randomArray = Array.from({ length }, () => Math.random() * 40);
       genForLoop = bubbleSort(tempArray);

@@ -27,9 +27,7 @@ class VerticalBar extends Component {
   }
 
   handlePauseOrRestart = e => {
-    // console.log(e.target.textContent);
-
-    if (e.target.textContent.toUpperCase() === 'RESTART?') {
+    if (e.target.textContent.toUpperCase() === this.redoName.toUpperCase()) {
       const payload = {
         done: false,
         cleanUp: false,
@@ -102,6 +100,8 @@ class VerticalBar extends Component {
     donut: Doughnut
   };
 
+  redoName = 'Redo?';
+
   render() {
     let newOptions = JSON.parse(JSON.stringify(this.options));
     newOptions.animation.duration = this.state.animDuration;
@@ -146,7 +146,7 @@ class VerticalBar extends Component {
       marginLeft: '10px'
     };
 
-    let buttonName = this.props.done ? 'Restart?' : this.props.pause ? 'Start' : 'Pause';
+    let buttonName = this.props.done ? this.redoName : this.props.pause ? 'Start' : 'Pause';
     return (
       <div>
         <a className="waves-effect waves-light btn" onClick={this.handleChange}>
