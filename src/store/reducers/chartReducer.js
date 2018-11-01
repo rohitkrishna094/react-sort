@@ -39,7 +39,6 @@ const chartReducer = (state = initialState, action) => {
       return { ...state, pause: !state.pause };
     case 'RANDOMIZE':
       let n = action.payload.length || length;
-      console.log(action.payload.length);
       const randomArray = Array.from({ length: n }, () => Math.random() * 40);
       genForLoop = bubbleSort(tempArray);
       return { ...state, array: randomArray };

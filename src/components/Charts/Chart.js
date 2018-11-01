@@ -116,11 +116,10 @@ class Chart extends Component {
     newOptions.animation.duration = this.state.animDuration;
 
     const labs = new Array(this.props.array.length).fill('number');
-    const defaultColor = 'rgba(255,99,132,0.2)';
+    const defaultColor = 'rgba(155,199,232,0.8)';
     const actionColor = 'blue';
     const finishColor = 'green';
     const colors = new Array(this.props.array.length).fill(defaultColor);
-    // console.log(labs.length);
     if (!this.props.done) {
       this.props.indices.forEach((el, i) => {
         if (el === true) colors[i] = actionColor;
@@ -141,7 +140,7 @@ class Chart extends Component {
         {
           label: 'My First dataset',
           backgroundColor: [...colors],
-          borderColor: 'rgba(255,99,132,1)',
+          borderColor: 'rgba(255, 99, 132, 0.4)',
           borderWidth: 1,
           hoverBackgroundColor: 'rgba(255,99,132,0.4)',
           hoverBorderColor: 'rgba(255,99,132,1)',
@@ -160,7 +159,6 @@ class Chart extends Component {
 
     for (const [index, [key, value]] of Object.entries(Object.entries(this.components))) {
       selectOptions.push({ value: key, label: key });
-      // console.log(`${index}: ${key} = ${value}`);
     }
 
     let ChartComponent = this.components[this.state.componentType];
