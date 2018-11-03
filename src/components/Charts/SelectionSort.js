@@ -7,7 +7,7 @@ import { randomize } from '../../store/actions/chartActions';
 import { restart } from '../../store/actions/chartActions';
 import Select from 'react-select';
 
-class Chart extends Component {
+class SelectionSort extends Component {
   state = {
     array: [],
     currentIteration: 1,
@@ -241,4 +241,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Chart);
+)(SelectionSort);

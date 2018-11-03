@@ -7,6 +7,7 @@ import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 
 import Chart from './components/Charts/Chart';
 import Donut from './components/Charts/Donut';
+import SelectionSort from './components/Charts/SelectionSort';
 
 const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
 
@@ -17,6 +18,7 @@ class App extends Component {
         <Router>
           <Switch>
             <Route path="/donut" exact={true} component={Donut} />
+            <Route path="/selectionsort" exact={true} component={SelectionSort} />
             <Route component={Chart} />
           </Switch>
         </Router>
