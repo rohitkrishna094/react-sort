@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - stable
+cache:
+  directories:
+    - node_modules
+env:
+  - CI=false
+script:
+  - yarn run build
+deploy:
+  provider: heroku
+  api_key:
+    secure: c1Oho3GH8NtW7rLyxYkznCDX6KhRw0KW9xuUNuvlStVFA0FoK73LzwrxlVPH9tQk4wRU2FEWx6t4tpdylagujQ4zn7ZhRNvTAA6QgUbKqlWGtRDOLAGGnRjTkPpBYBiVll5Bgar59yQToygxliOjnwU+kp+xUMVZhl53J5ABeY8tASk0ZpydJIT9He6Ef97IjreMFBRdRG+qcPCZptE9cKU6AeqJRRcPyKeKNwr0LYJWUP9aRUWggIvRWXPQJ62lkcWNxZ6G6rOhq95GPrxfjbi1EFYVV2BAZOqLmtMSxO6YKJ5+fS6Q2aUDHHj6iJMLUiKXnUaPEvEIUIMoVGfXBC70KUarQSB7oka564QwglkQnksbjWPrY1iq1kVbIxTsJUNOtYBk+BTa8xsPdGBbEEgflUi7bB2zzIZTd81Q9Xqlv9tDfx3728QFHYSGtsrkjo1uKlSQS/9E5D4DXYTUIF5WF/bBwQkPQVSSwjsoAeAMEuqxXR3GNOW9ce9Lf03A2cUfrqVJSssjEN/Q60FuZ8i9cNd7HUdcmc7s2xZECYfxo0anhTi7aWDCzvIjmkejWQliRbwojKImzxWsnupYMhlYNFbFwn+dJi5Ik6e0Ji5gFayq5d1SxDEkPzzwgWdQwDDiNGVaHBLRXzAAP2Ffq1SIiVcs+cFKc655vZXT0PA=
+  app: socialfb87634
+  on:
+    branch: master
