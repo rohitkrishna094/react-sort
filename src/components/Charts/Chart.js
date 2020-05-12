@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import { Bar, Doughnut, Bubble, HorizontalBar, Line } from 'react-chartjs-2';
-import { connect } from 'react-redux';
-import { nextIteration } from '../../store/actions/chartActions';
-import { pauseProcess } from '../../store/actions/chartActions';
-import { randomize } from '../../store/actions/chartActions';
-import { restart } from '../../store/actions/chartActions';
-import Select from 'react-select';
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { Component } from "react";
+import { Bar, Doughnut, Bubble, HorizontalBar, Line } from "react-chartjs-2";
+import { connect } from "react-redux";
+import { nextIteration } from "../../store/actions/chartActions";
+import { pauseProcess } from "../../store/actions/chartActions";
+import { randomize } from "../../store/actions/chartActions";
+import { restart } from "../../store/actions/chartActions";
+import Select from "react-select";
 
 class Chart extends Component {
   state = {
@@ -17,8 +18,8 @@ class Chart extends Component {
     finishArray: [],
     delay: 0,
     animDuration: 0,
-    componentType: 'vertical',
-    selectedOption: null
+    componentType: "vertical",
+    selectedOption: null,
     // arrayLength: 100
   };
 
@@ -28,7 +29,7 @@ class Chart extends Component {
     // }
   }
 
-  handlePauseOrRestart = e => {
+  handlePauseOrRestart = (e) => {
     if (e.target.textContent.toUpperCase() === this.redoName.toUpperCase()) {
       const payload = {
         done: false,
@@ -37,7 +38,7 @@ class Chart extends Component {
         finishArray: [],
         delay: 0,
         animDuration: 0,
-        componentType: false
+        componentType: false,
       };
       this.props.restart(payload);
     } else {
@@ -59,7 +60,7 @@ class Chart extends Component {
         let finishArray = new Array(this.state.currentCleanupLength).fill(true);
         this.setState({
           currentCleanupLength: this.state.currentCleanupLength + 1,
-          finishArray
+          finishArray,
         });
         if (finishArray.length > props.length) clearInterval(timer);
       }, this.state.delay);
@@ -70,55 +71,55 @@ class Chart extends Component {
     maintainAspectRatio: false,
     animation: {
       duration: this.state.animDuration,
-      easing: 'linear',
+      easing: "linear",
       rotate: true,
-      scale: false
+      scale: false,
     },
     legend: {
-      display: false
+      display: false,
     },
     scales: {
       xAxes: [{ display: false }],
-      yAxes: [{ display: false }]
-    }
+      yAxes: [{ display: false }],
+    },
   };
 
-  handleLengthChange = e => {
+  handleLengthChange = (e) => {
     this.props.randomize(e.target.value);
   };
 
-  handleAnimChange = e => {
+  handleAnimChange = (e) => {
     this.setState({ animDuration: e.target.value });
   };
 
-  handleTimeChange = e => {
+  handleTimeChange = (e) => {
     this.setState({ delay: e.target.value });
   };
 
-  handleRandomize = e => {
+  handleRandomize = (e) => {
     this.props.randomize(this.props.length);
   };
 
-  handleChange = selectedOption => {
+  handleChange = (selectedOption) => {
     this.setState({ componentType: selectedOption.value });
   };
 
   components = {
     vertical: Bar,
     donut: Doughnut,
-    horizontal: HorizontalBar
+    horizontal: HorizontalBar,
   };
 
-  redoName = 'Redo?';
+  redoName = "Redo?";
 
   render() {
     let newOptions = JSON.parse(JSON.stringify(this.options));
     newOptions.animation.duration = this.state.animDuration;
 
-    const labs = new Array(this.props.array.length).fill('number');
-    const defaultColor = 'rgba(155,199,232,0.8)';
-    const actionColor = 'blue';
-    const finishColor = 'green';
+    const labs = new Array(this.props.array.length).fill("number");
+    const defaultColor = "rgba(155,199,232,0.8)";
+    const actionColor = "blue";
+    const finishColor = "green";
     const colors = new Array(this.props.array.length).fill(defaultColor);
     if (!this.props.done) {
       this.props.indices.forEach((el, i) => {
@@ -138,23 +139,23 @@ class Chart extends Component {
       labels: [...labs],
       datasets: [
         {
-          label: 'My First dataset',
+          label: "My First dataset",
           backgroundColor: [...colors],
           // borderColor: 'rgba(255, 99, 132, 0.4)',
           // borderWidth: 1,
-          hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-          hoverBorderColor: 'rgba(255,99,132,1)',
-          data: this.props.array
-        }
-      ]
+          hoverBackgroundColor: "rgba(255,99,132,0.4)",
+          hoverBorderColor: "rgba(255,99,132,1)",
+          data: this.props.array,
+        },
+      ],
     };
 
     const rStyle = {
-      width: '10%',
-      marginLeft: '10px'
+      width: "10%",
+      marginLeft: "10px",
     };
 
-    let buttonName = this.props.done ? this.redoName : this.props.pause ? 'Start' : 'Pause';
+    let buttonName = this.props.done ? this.redoName : this.props.pause ? "Start" : "Pause";
     let selectOptions = [];
 
     for (const [index, [key, value]] of Object.entries(Object.entries(this.components))) {
@@ -168,12 +169,7 @@ class Chart extends Component {
         {/* Dashboard controls */}
         <div className="row">
           <div className="col s2">
-            <Select
-              value={this.state.selectedOption}
-              onChange={this.handleChange}
-              options={selectOptions}
-              defaultValue={selectOptions[0]}
-            />
+            <Select value={this.state.selectedOption} onChange={this.handleChange} options={selectOptions} defaultValue={selectOptions[0]} />
           </div>
 
           <div className="col s6">
@@ -186,25 +182,11 @@ class Chart extends Component {
             <label htmlFor="lengthSlider" style={rStyle}>
               Array Length
             </label>
-            <input
-              style={rStyle}
-              type="range"
-              id="lengthSlider"
-              min="10"
-              max="500"
-              onChange={this.handleLengthChange}
-            />
+            <input style={rStyle} type="range" id="lengthSlider" min="10" max="500" onChange={this.handleLengthChange} />
             <label htmlFor="animationSlider" style={rStyle}>
               Animation Duration
             </label>
-            <input
-              style={rStyle}
-              type="range"
-              id="animationSlider"
-              min="1"
-              max="500"
-              onChange={this.handleAnimChange}
-            />
+            <input style={rStyle} type="range" id="animationSlider" min="1" max="500" onChange={this.handleAnimChange} />
             <label htmlFor="timeSlider" style={rStyle}>
               Time interval
             </label>
@@ -218,27 +200,24 @@ class Chart extends Component {
   }
 } // end class
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     array: state.chart.array,
     length: state.chart.length,
     currentIteration: state.chart.currentIteration,
     done: state.chart.done,
     pause: state.chart.pause,
-    indices: state.chart.indices
+    indices: state.chart.indices,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     getNextArray: (array, currentIteration, delay) => dispatch(nextIteration(array, currentIteration, delay)),
     pauseProcess: () => dispatch(pauseProcess()),
-    randomize: length => dispatch(randomize(length)),
-    restart: payload => dispatch(restart(payload))
+    randomize: (length) => dispatch(randomize(length)),
+    restart: (payload) => dispatch(restart(payload)),
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Chart);
+export default connect(mapStateToProps, mapDispatchToProps)(Chart);
