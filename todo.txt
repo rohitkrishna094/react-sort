@@ -1,0 +1,41 @@
+- Add a react select to select different charts for dynamic components
+- Color schemes
+- Display some text information about current iterations etc(think about it later)
+- Add sound?
+
+
+All features
+-------------
+* Users can change array size only while simulation is not running
+* Users can click randomize button only while simulation is not running
+* Users can change pause or play the simulation whenever they want. Button text changes from play to pause and vice-versa
+* Once simulation ends, Play button changes to redo and state should be reset.
+* Users can select which sorting algorithm they want to use. They cannot change this while simulation is running.
+    - Once simulation is paused(before completing), if they change the sorting algorithm, the state need not be reset.
+* Once simulation is completed, entire array should be sweeped.
+* Display the currentIteration number on the page
+* Users can select which visualizer they want(horizontal, vertical, donut etc). They cannot change this while simulation is running(think about this)
+    - Once simulation is paused(before completing), if they change the visualizer, the state need not be reset.
+* Have a play all at the same time sort button like in: https://www.toptal.com/developers/sorting-algorithms
+* Add sound
+
+Phase 1:
+--------
+* Users can change array size only while simulation is not running
+* Users can click randomize button only while simulation is not running
+* Add colors for comparisons and swaps.
+* Look into requestAnimFrame;
+* Users can change pause or play the simulation whenever they want. Button text changes from play to pause and vice-versa
+* Once simulation ends, Play button changes to redo and state should be reset.
+* Users can select which sorting algorithm they want to use. They cannot change this while simulation is running.
+    - Once simulation is paused(before completing), if they change the sorting algorithm, the state need not be reset.
+* Once simulation is completed, entire array should be sweeped.
+
+Phase 2:
+--------
+* Display the currentIteration number on the page
+* Users can select which visualizer they want(horizontal, vertical, donut etc). They cannot change this while simulation is running(think about this)
+    - Once simulation is paused(before completing), if they change the visualizer, the state need not be reset.
+* Add sound
+* Have a play all at the same time sort button like in: https://www.toptal.com/developers/sorting-algorithms
+* Add Progress bar
