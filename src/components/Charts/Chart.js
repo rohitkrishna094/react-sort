@@ -20,14 +20,7 @@ class Chart extends Component {
     animDuration: 0,
     componentType: "vertical",
     selectedOption: null,
-    // arrayLength: 100
   };
-
-  componentDidMount() {
-    // if (!this.props.done) {
-    //   this.props.getNextArray(this.props.array, this.props.currentIteration, this.state.delay);
-    // }
-  }
 
   handlePauseOrRestart = (e) => {
     if (e.target.textContent.toUpperCase() === this.redoName.toUpperCase()) {
