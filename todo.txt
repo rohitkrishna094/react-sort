@@ -39,3 +39,4 @@ Phase 2:
 * Add sound
 * Have a play all at the same time sort button like in: https://www.toptal.com/developers/sorting-algorithms
 * Add Progress bar
+* Add some information about sorting algorithms and their time/space complexities
