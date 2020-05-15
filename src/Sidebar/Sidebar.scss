@@ -1,0 +1,31 @@
+.sidebar_container {
+  background-color: #011936;
+  flex-basis: 20%;
+  padding: 2rem;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  & > * {
+    margin-top: 1rem;
+  }
+  #select_div select {
+    width: 100%;
+  }
+
+  #play_button {
+    background-color: #ed254e;
+    &:hover {
+      background-color: #be1a37;
+    }
+  }
+
+  #randomize_button,
+  #array_size_button {
+    background-color: #465362;
+    &:hover {
+      background-color: #313b4b;
+    }
+  }
+}
