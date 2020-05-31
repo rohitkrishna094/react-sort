@@ -21,8 +21,22 @@
     }
   }
 
-  #randomize_button,
-  #array_size_button {
+  .slider {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: stretch;
+
+    #slider_label {
+      flex: 2;
+    }
+    #slider_input {
+      cursor: pointer;
+      flex: 8;
+    }
+  }
+
+  #randomize_button {
     background-color: #465362;
     &:hover {
       background-color: #313b4b;

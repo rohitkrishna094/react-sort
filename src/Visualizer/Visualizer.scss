@@ -1,4 +1,13 @@
-.visualizer {
+.visualizer_container {
   background-color: #f4fffd;
   flex-basis: 80%;
+}
+
+.visualizer {
+  height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 2rem;
 }
