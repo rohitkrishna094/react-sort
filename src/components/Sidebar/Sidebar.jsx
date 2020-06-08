@@ -1,32 +1,9 @@
 import React, { useContext } from "react";
 import "./Sidebar.scss";
 import { GlobalStateContext } from "../../store/providers/GlobalStateProvider/GlobalStateProvider";
-import { COMPARE_INDEX, SWAP_INDEX, CHANGE_SIZE, RANDOMIZE, TOGGLE_PLAY } from "../../store/actionTypes/actionTypes";
+import { CHANGE_SIZE, RANDOMIZE, TOGGLE_PLAY } from "../../store/actionTypes/actionTypes";
+import { getDispatchList } from '../../algorithms/bubbleSort';
 import { delay } from "../../utils/utils";
-
-const swap = (arr, i, j) => {
-  const temp = arr[i];
-  arr[i] = arr[j];
-  arr[j] = temp;
-};
-
-const handleDispatch = async (dispatch, arr) => {
-  const dispatchList = [];
-  for (let i = 0; i < arr.length - 1; i++) {
-    for (let j = 0; j < arr.length - i - 1; j++) {
-      dispatchList.push({ type: COMPARE_INDEX, payload: { arr: [...arr], indices: [j, j + 1] } });
-      if (arr[j] > arr[j + 1]) {
-        dispatchList.push({ type: SWAP_INDEX, payload: { arr: [...arr], indices: [j, j + 1] } });
-        swap(arr, j, j + 1);
-      }
-    }
-  }
-
-  for (let i = 0; i < dispatchList.length; i++) {
-    await delay(0);
-    dispatch(dispatchList[i]);
-  }
-};
 
 const Sidebar = () => {
   const { state, dispatch } = useContext(GlobalStateContext);
@@ -40,10 +17,14 @@ const Sidebar = () => {
     dispatch({ type: RANDOMIZE });
   };
 
-  const onPlayToggleClick = (e) => {
+  const onPlayToggleClick = async (e) => {
     dispatch({ type: TOGGLE_PLAY, payload: { play: !play } });
     if (play) {
-      handleDispatch(dispatch, [...arr]);
+      const dispatchList = getDispatchList([...arr]);
+      for (let i = 0; i < dispatchList.length; i++) {
+        await delay(0);
+        dispatch(dispatchList[i]);
+      }
     }
   };
 
@@ -55,7 +36,7 @@ const Sidebar = () => {
           <span className="button_title">{play ? "Play" : "Pause"}</span>
         </button>
         <button className="button is-primary" id="randomize_button" disabled={!play} onClick={onRandomizeClick}>
-          <span className="icon"><i class="fas fa-random" /></span>
+          <span className="icon"><i className="fas fa-random" /></span>
           <span className="button_title">Randomize</span>
         </button>
         <div className="slider">
