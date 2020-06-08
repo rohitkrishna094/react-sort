@@ -33,6 +33,10 @@
     #slider_input {
       cursor: pointer;
       flex: 8;
+
+      &:disabled {
+        cursor: not-allowed;
+      }
     }
   }
 
