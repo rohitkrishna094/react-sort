@@ -6,6 +6,28 @@ export const generateArray = (size) => Array.from({ length: size }, () => Math.r
 
 export const delay = (t) => new Promise((resolve) => setTimeout(resolve, t));
 
+export const cancellableDelay = (t) => {
+  let timer = 0;
+  let reject = null;
+  const promise = new Promise((resolve, _reject) => {
+    reject = _reject;
+    timer = setTimeout(resolve, t);
+  });
+  return {
+    get promise() {
+      return promise;
+    },
+    cancel() {
+      if (timer) {
+        clearTimeout(timer);
+        timer = 0;
+        reject();
+        reject = null;
+      }
+    },
+  };
+};
+
 export const generateDefaultColors = (size) => Array.from({ length: size }, (x) => defaultColor);
 
 export const generateCompareColors = (size, indices) => {

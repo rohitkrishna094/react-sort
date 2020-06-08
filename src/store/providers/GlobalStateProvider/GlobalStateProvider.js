@@ -6,7 +6,7 @@ const defaultSize = 100;
 const initialState = {
   size: defaultSize,
   arr: generateArray(defaultSize),
-  play: true,
+  playing: false,
   colors: generateDefaultColors(defaultSize),
 };
 const GlobalStateContext = createContext(initialState);
@@ -20,7 +20,7 @@ const GlobalStateProvider = ({ children }) => {
       case RANDOMIZE:
         return { ...state, arr: generateArray(state.size) };
       case TOGGLE_PLAY:
-        return { ...state, play: action.payload.play };
+        return { ...state, playing: action.payload.playing };
       case COMPARE_INDEX:
         return { ...state, arr: action.payload.arr, colors: generateCompareColors(state.size, action.payload.indices) };
       case SWAP_INDEX:
