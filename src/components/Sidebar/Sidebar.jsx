@@ -1,15 +1,16 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import "./Sidebar.scss";
 import { GlobalStateContext } from "../../store/providers/GlobalStateProvider/GlobalStateProvider";
 import { CHANGE_SIZE, RANDOMIZE, TOGGLE_PLAY } from "../../store/actionTypes/actionTypes";
 import { getDispatchList } from '../../algorithms/bubbleSort';
-import { delay, cancellableDelay } from "../../utils/utils";
-import { useInterval } from "../../hooks/useInterval";
 
 const Sidebar = () => {
   const { state, dispatch } = useContext(GlobalStateContext);
   const { size, playing, arr } = state;
   const [dispatchList, setDispatchList] = useState([]);
+  const dispatchListRef = useRef(dispatchList);
+  dispatchListRef.current = dispatchList;
+  const [timerId, setTimerId] = useState(0);
 
   const onSliderChange = (e) => {
     dispatch({ type: CHANGE_SIZE, payload: { size: e.target.value } });
@@ -20,30 +21,23 @@ const Sidebar = () => {
   };
 
   useEffect(() => {
-    setInterval(() => {
-      console.log(dispatchList)
-    }, 1000);
-  }, [dispatchList]);
-
-  
+    if (playing) {
+      setDispatchList(getDispatchList([...arr]));
+      const curTimerId = setInterval(() => {
+        const dispatchListRefCurrent = dispatchListRef.current;
+        if (dispatchListRefCurrent && dispatchListRefCurrent.length > 0) {
+          dispatch(dispatchListRefCurrent[0]);
+          setDispatchList(dispatchListRefCurrent.slice(1));
+        }
+      }, 0);
+      setTimerId(curTimerId);
+    } else if (!playing) {
+      clearInterval(timerId);
+    }
+  }, [playing])
 
   const onPlayToggleClick = async (e) => {
     dispatch({ type: TOGGLE_PLAY, payload: { playing: !playing } });
-    if (playing) {
-      const tempArr = getDispatchList([...arr]);
-      setDispatchList(tempArr);
-      // setInterval(() => {
-      //   console.log(dispatchList);
-      //   // if (dispatchList && dispatchList.length > 0) {
-      //   //   dispatch(dispatchList[0]);
-      //   //   setDispatchList(setDispatchList(dispatchList.slice(1)));
-      //   // }
-      // }, 100);
-      // // for (let i = 0; i < dispatchList.length; i++) {
-      // //   await delayFunc.promise;
-      // //   dispatch(dispatchList[i]);
-      // // }
-    }
   };
 
   return (
