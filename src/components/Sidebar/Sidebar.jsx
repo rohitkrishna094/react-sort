@@ -1,12 +1,13 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import "./Sidebar.scss";
 import { GlobalStateContext } from "../../store/providers/GlobalStateProvider/GlobalStateProvider";
-import { CHANGE_SIZE, RANDOMIZE, TOGGLE_PLAY } from "../../store/actionTypes/actionTypes";
-import { getDispatchList } from '../../algorithms/bubbleSort';
+import { CHANGE_SIZE, RANDOMIZE, TOGGLE_PLAY, CHANGE_ALGORITHM } from "../../store/actionTypes/actionTypes";
+import { getAlgorithm } from '../../algorithms/index';
+
 
 const Sidebar = () => {
   const { state, dispatch } = useContext(GlobalStateContext);
-  const { size, playing, arr } = state;
+  const { size, playing, arr, sortingAlgorithm } = state;
   const [dispatchList, setDispatchList] = useState([]);
   const dispatchListRef = useRef(dispatchList);
   dispatchListRef.current = dispatchList;
@@ -20,21 +21,32 @@ const Sidebar = () => {
     dispatch({ type: RANDOMIZE });
   };
 
+  const delay = 0;
   useEffect(() => {
     if (playing) {
-      setDispatchList(getDispatchList([...arr]));
-      const curTimerId = setInterval(() => {
-        const dispatchListRefCurrent = dispatchListRef.current;
-        if (dispatchListRefCurrent && dispatchListRefCurrent.length > 0) {
-          dispatch(dispatchListRefCurrent[0]);
-          setDispatchList(dispatchListRefCurrent.slice(1));
-        }
-      }, 0);
-      setTimerId(curTimerId);
+      console.log('inside useEffect');
+      const sortFunction = getAlgorithm(sortingAlgorithm)?.algorithm;
+      console.log('after getting sortFunction', sortFunction);
+      if (sortFunction) {
+        console.log('before calling insertion Sort');
+        setDispatchList(sortFunction([...arr]));
+        const curTimerId = setInterval(() => {
+          const dispatchListRefCurrent = dispatchListRef.current;
+          if (dispatchListRefCurrent && dispatchListRefCurrent.length > 0) {
+            dispatch(dispatchListRefCurrent[0]);
+            setDispatchList(dispatchListRefCurrent.slice(1));
+          }
+        }, delay);
+        setTimerId(curTimerId);
+      }
     } else if (!playing) {
       clearInterval(timerId);
     }
   }, [playing])
+
+  const onSelectChange = e => {
+    dispatch({ type: CHANGE_ALGORITHM, payload: { sortingAlgorithm: Number(e.target.value) } });
+  }
 
   const onPlayToggleClick = async (e) => {
     dispatch({ type: TOGGLE_PLAY, payload: { playing: !playing } });
@@ -56,11 +68,20 @@ const Sidebar = () => {
           <input id="slider_input" className="slider" step="1" min="10" max="200" value={size} type="range" disabled={playing} onChange={onSliderChange} />
         </div>
         <div className="select" id="select_div">
-          <select name="" id="" disabled={playing}>
-            <option value="">Bubble Sort</option>
-            <option value="">Insertion Sort</option>
-            <option value="">Selection Sort</option>
-            <option value="">Merge Sort</option>
+          <select name="" id="" disabled={playing} onChange={onSelectChange}>
+            <option value="0">Bubble Sort</option>
+            <option value="1">Insertion Sort</option>
+            <option value="2">Selection Sort</option>
+            <option value="3">Merge Sort</option>
+            <option value="4">Quick Sort</option>
+            <option value="5">Radix Sort</option>
+            <option value="6">Heap Sort</option>{/* <option value="0">{getAlgorithm(0).name}</option>
+            <option value="1">{getAlgorithm(1).name}</option>
+            <option value="2">{getAlgorithm(2).name}</option>
+            <option value="3">{getAlgorithm(3).name}</option>
+            <option value="4">{getAlgorithm(4).name}</option>
+            <option value="5">{getAlgorithm(5).name}</option>
+            <option value="6">{getAlgorithm(6).name}</option> */}
           </select>
         </div>
       </div>
