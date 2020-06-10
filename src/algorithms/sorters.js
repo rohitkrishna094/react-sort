@@ -7,8 +7,8 @@ export const bubbleSort = (arr) => {
     for (let j = 0; j < arr.length - i - 1; j++) {
       dispatchList.push({ type: COMPARE_INDEX, payload: { arr: [...arr], indices: [j, j + 1] } });
       if (arr[j] > arr[j + 1]) {
-        dispatchList.push({ type: SWAP_INDEX, payload: { arr: [...arr], indices: [j, j + 1] } });
         swap(arr, j, j + 1);
+        dispatchList.push({ type: SWAP_INDEX, payload: { arr: [...arr], indices: [j, j + 1] } });
       }
     }
   }
@@ -33,3 +33,23 @@ export const insertionSort = (arr) => {
   }
   return dispatchList;
 };
+
+export const selectionSort = function (arr) {
+  const dispatchList = [];
+  let minIdx;
+  let len = arr.length;
+
+  for (let i = 0; i < len; i++) {
+    minIdx = i;
+    for (let j = i + 1; j < len; j++) {
+      dispatchList.push({ type: COMPARE_INDEX, payload: { arr: [...arr], indices: [j, minIdx] } });
+      if (arr[j] < arr[minIdx]) {
+        minIdx = j;
+      }
+    }
+    swap(arr, i, minIdx);
+    dispatchList.push({ type: SWAP_INDEX, payload: { arr: [...arr], indices: [i, minIdx] } });
+  }
+  return dispatchList;
+};
+
