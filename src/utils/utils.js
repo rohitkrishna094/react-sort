@@ -1,6 +1,7 @@
 const defaultColor = "rgba(237,37,78,0.9)";
 const compareColor = "rgba(1,25,54,1)";
 const swapColor = "rgba(249,220,92,0.9)";
+const sweepColor = "#28965A";
 
 export const generateArray = (size) => Array.from({ length: size }, () => Math.random() * 40);
 
@@ -42,8 +43,10 @@ export const generateSwapColors = (size, indices) => {
   return colors;
 };
 
-export const swap = (arr, i, j) => {
-  const temp = arr[i];
-  arr[i] = arr[j];
-  arr[j] = temp;
+export const generateSweepColors = (size, index) => {
+  const colors = Array.from({ length: size }, (x) => defaultColor);
+  for (let i = 0; i <= index; i++) {
+    colors[i] = sweepColor;
+  }
+  return colors;
 };

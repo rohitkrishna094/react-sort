@@ -5,3 +5,4 @@ export const SWAP_INDEX = "SWAP_INDEX";
 export const COMPARE_INDEX = "COMPARE_INDEX";
 export const CHANGE_ALGORITHM = "CHANGE_ALGORITHM";
 export const CHANGE_DELAY = "CHANGE_DELAY";
+export const SWEEP = "SWEEP";

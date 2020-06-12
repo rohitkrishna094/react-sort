@@ -3,7 +3,6 @@ import "./Sidebar.scss";
 import { GlobalStateContext } from "../../store/providers/GlobalStateProvider/GlobalStateProvider";
 import { CHANGE_SIZE, RANDOMIZE, TOGGLE_PLAY, CHANGE_ALGORITHM, CHANGE_DELAY } from "../../store/actionTypes/actionTypes";
 import { getAlgorithm } from '../../algorithms/index';
-import { useInterval } from '../../hooks/useInterval';
 
 const Sidebar = () => {
   const { state, dispatch } = useContext(GlobalStateContext);
@@ -37,6 +36,8 @@ const Sidebar = () => {
           if (dispatchListRefCurrent && dispatchListRefCurrent.length > 0) {
             dispatch(dispatchListRefCurrent[0]);
             setDispatchList(dispatchListRefCurrent.slice(1));
+          } else if (dispatchListRefCurrent && dispatchListRefCurrent.length === 0) {
+            dispatch({ type: TOGGLE_PLAY, payload: { playing: false } });
           }
         }, delay);
         setTimerId(curTimerId);
@@ -84,14 +85,7 @@ const Sidebar = () => {
             <option value="2">Selection Sort</option>
             <option value="3">Merge Sort</option>
             <option value="4">Quick Sort</option>
-            <option value="5">Radix Sort</option>
-            <option value="6">Heap Sort</option>{/* <option value="0">{getAlgorithm(0).name}</option>
-            <option value="1">{getAlgorithm(1).name}</option>
-            <option value="2">{getAlgorithm(2).name}</option>
-            <option value="3">{getAlgorithm(3).name}</option>
-            <option value="4">{getAlgorithm(4).name}</option>
-            <option value="5">{getAlgorithm(5).name}</option>
-            <option value="6">{getAlgorithm(6).name}</option> */}
+            <option value="5">Heap Sort</option>
           </select>
         </div>
       </div>
