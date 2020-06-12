@@ -1,6 +1,7 @@
 import React, { createContext, useReducer } from "react";
 import { CHANGE_SIZE, RANDOMIZE, TOGGLE_PLAY, SWAP_INDEX, COMPARE_INDEX, CHANGE_ALGORITHM, CHANGE_DELAY, SWEEP } from "../../actionTypes/actionTypes";
 import { generateCompareColors, generateArray, generateDefaultColors, generateSwapColors, generateSweepColors } from "../../../utils/utils";
+import { BUBBLE_SORT } from "../../../algorithms";
 
 const defaultSize = 100;
 const initialState = {
@@ -8,7 +9,7 @@ const initialState = {
   arr: generateArray(defaultSize),
   playing: false,
   colors: generateDefaultColors(defaultSize),
-  sortingAlgorithm: 0,
+  sortingAlgorithm: BUBBLE_SORT,
   delay: 0,
 };
 const GlobalStateContext = createContext(initialState);
@@ -30,6 +31,7 @@ const GlobalStateProvider = ({ children }) => {
       case SWEEP:
         return { ...state, colors: generateSweepColors(state.size, action.payload.index) };
       case CHANGE_ALGORITHM:
+        console.log(action.payload.sortingAlgorithm);
         return { ...state, sortingAlgorithm: action.payload.sortingAlgorithm };
       case CHANGE_DELAY:
         return { ...state, delay: action.payload.delay };

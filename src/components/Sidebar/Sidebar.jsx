@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import "./Sidebar.scss";
 import { GlobalStateContext } from "../../store/providers/GlobalStateProvider/GlobalStateProvider";
 import { CHANGE_SIZE, RANDOMIZE, TOGGLE_PLAY, CHANGE_ALGORITHM, CHANGE_DELAY } from "../../store/actionTypes/actionTypes";
-import { getAlgorithm } from '../../algorithms/index';
+import { getAlgorithm, BUBBLE_SORT, INSERTION_SORT, MERGE_SORT, QUICK_SORT, HEAP_SORT } from '../../algorithms/index';
 
 const Sidebar = () => {
   const { state, dispatch } = useContext(GlobalStateContext);
@@ -52,7 +52,7 @@ const Sidebar = () => {
   }, [playing, delay])
 
   const onSelectChange = e => {
-    dispatch({ type: CHANGE_ALGORITHM, payload: { sortingAlgorithm: Number(e.target.value) } });
+    dispatch({ type: CHANGE_ALGORITHM, payload: { sortingAlgorithm: e.target.value } });
   }
 
   const onPlayToggleClick = async (e) => {
@@ -80,12 +80,12 @@ const Sidebar = () => {
         </div>
         <div className="select" id="select_div">
           <select name="" id="" disabled={playing} onChange={onSelectChange}>
-            <option value="0">Bubble Sort</option>
-            <option value="1">Insertion Sort</option>
-            <option value="2">Selection Sort</option>
-            <option value="3">Merge Sort</option>
-            <option value="4">Quick Sort</option>
-            <option value="5">Heap Sort</option>
+            <option value={BUBBLE_SORT}>Bubble Sort</option>
+            <option value={INSERTION_SORT}>Insertion Sort</option>
+            <option value={INSERTION_SORT}>Selection Sort</option>
+            <option value={MERGE_SORT}>Merge Sort</option>
+            <option value={QUICK_SORT}>Quick Sort</option>
+            <option value={HEAP_SORT}>Heap Sort</option>
           </select>
         </div>
       </div>

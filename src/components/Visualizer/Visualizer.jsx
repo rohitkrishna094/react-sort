@@ -8,7 +8,7 @@ const Visualizer = () => {
   const { arr, colors } = state;
 
   const data = {
-    labels: Array(arr.length).map((x) => x),
+    labels: new Array(arr.length).fill().map((num, i) => `array[${i}]`),
     datasets: [
       {
         backgroundColor: [...colors],
