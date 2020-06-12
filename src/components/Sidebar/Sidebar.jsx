@@ -1,34 +1,36 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import "./Sidebar.scss";
 import { GlobalStateContext } from "../../store/providers/GlobalStateProvider/GlobalStateProvider";
-import { CHANGE_SIZE, RANDOMIZE, TOGGLE_PLAY, CHANGE_ALGORITHM } from "../../store/actionTypes/actionTypes";
+import { CHANGE_SIZE, RANDOMIZE, TOGGLE_PLAY, CHANGE_ALGORITHM, CHANGE_DELAY } from "../../store/actionTypes/actionTypes";
 import { getAlgorithm } from '../../algorithms/index';
-
+import { useInterval } from '../../hooks/useInterval';
 
 const Sidebar = () => {
   const { state, dispatch } = useContext(GlobalStateContext);
-  const { size, playing, arr, sortingAlgorithm } = state;
+  const { size, playing, arr, sortingAlgorithm, delay } = state;
   const [dispatchList, setDispatchList] = useState([]);
   const dispatchListRef = useRef(dispatchList);
   dispatchListRef.current = dispatchList;
   const [timerId, setTimerId] = useState(0);
 
-  const onSliderChange = (e) => {
+  const onSizeSliderChange = (e) => {
     dispatch({ type: CHANGE_SIZE, payload: { size: e.target.value } });
+  };
+
+  const onDelaySliderChange = e => {
+    dispatch({ type: CHANGE_DELAY, payload: { delay: e.target.value } });
   };
 
   const onRandomizeClick = (e) => {
     dispatch({ type: RANDOMIZE });
   };
 
-  const delay = 0;
+  // console.log(delay);
+  // console.log(dispatchList.length, dispatchList);
   useEffect(() => {
     if (playing) {
-      console.log('inside useEffect');
-      const sortFunction = getAlgorithm(sortingAlgorithm)?.algorithm;
-      console.log('after getting sortFunction', sortFunction);
+      const sortFunction = getAlgorithm(sortingAlgorithm).algorithm;
       if (sortFunction) {
-        console.log('before calling insertion Sort');
         setDispatchList(sortFunction([...arr]));
         const curTimerId = setInterval(() => {
           const dispatchListRefCurrent = dispatchListRef.current;
@@ -42,7 +44,11 @@ const Sidebar = () => {
     } else if (!playing) {
       clearInterval(timerId);
     }
-  }, [playing])
+
+    return () => {
+      clearInterval(timerId);
+    }
+  }, [playing, delay])
 
   const onSelectChange = e => {
     dispatch({ type: CHANGE_ALGORITHM, payload: { sortingAlgorithm: Number(e.target.value) } });
@@ -64,8 +70,12 @@ const Sidebar = () => {
           <span className="button_title">Randomize</span>
         </button>
         <div className="slider">
-          <span id="slider_label">Size: {size}</span>
-          <input id="slider_input" className="slider" step="1" min="10" max="200" value={size} type="range" disabled={playing} onChange={onSliderChange} />
+          <span className="slider_label">Size: {size}</span>
+          <input className="slider slider_input" step="1" min="10" max="200" value={size} type="range" disabled={playing} onChange={onSizeSliderChange} />
+        </div>
+        <div className="slider">
+          <span className="slider_label">Delay: {delay}</span>
+          <input className="slider slider_input" step="1" min="0" max="500" value={delay} type="range" onChange={onDelaySliderChange} />
         </div>
         <div className="select" id="select_div">
           <select name="" id="" disabled={playing} onChange={onSelectChange}>

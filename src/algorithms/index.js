@@ -1,4 +1,4 @@
-import { bubbleSort, insertionSort, selectionSort } from "./sorters";
+import { bubbleSort, insertionSort, selectionSort, mergeSort } from "./sorters";
 
 export const getAlgorithm = (id) => {
   switch (id) {
@@ -9,7 +9,7 @@ export const getAlgorithm = (id) => {
     case 2:
       return { name: "Selection Sort", algorithm: selectionSort };
     case 3:
-      return { name: "Merge Sort" };
+      return { name: "Merge Sort", algorithm: mergeSort };
     case 4:
       return { name: "Quick Sort" };
     case 5:

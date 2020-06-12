@@ -1,5 +1,5 @@
 import React, { createContext, useReducer } from "react";
-import { CHANGE_SIZE, RANDOMIZE, TOGGLE_PLAY, SWAP_INDEX, COMPARE_INDEX, CHANGE_ALGORITHM } from "../../actionTypes/actionTypes";
+import { CHANGE_SIZE, RANDOMIZE, TOGGLE_PLAY, SWAP_INDEX, COMPARE_INDEX, CHANGE_ALGORITHM, CHANGE_DELAY } from "../../actionTypes/actionTypes";
 import { generateCompareColors, generateArray, generateDefaultColors, generateSwapColors } from "../../../utils/utils";
 
 const defaultSize = 100;
@@ -9,6 +9,7 @@ const initialState = {
   playing: false,
   colors: generateDefaultColors(defaultSize),
   sortingAlgorithm: 0,
+  delay: 0,
 };
 const GlobalStateContext = createContext(initialState);
 const { Provider } = GlobalStateContext;
@@ -28,6 +29,8 @@ const GlobalStateProvider = ({ children }) => {
         return { ...state, arr: action.payload.arr, colors: generateSwapColors(state.size, action.payload.indices) };
       case CHANGE_ALGORITHM:
         return { ...state, sortingAlgorithm: action.payload.sortingAlgorithm };
+      case CHANGE_DELAY:
+        return { ...state, delay: action.payload.delay };
       default:
         return state;
     }
