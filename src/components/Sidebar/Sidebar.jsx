@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import "./Sidebar.scss";
 import { GlobalStateContext } from "../../store/providers/GlobalStateProvider/GlobalStateProvider";
 import { CHANGE_SIZE, RANDOMIZE, TOGGLE_PLAY, CHANGE_ALGORITHM, CHANGE_DELAY } from "../../store/actionTypes/actionTypes";
-import { getAlgorithm, BUBBLE_SORT, INSERTION_SORT, MERGE_SORT, QUICK_SORT, HEAP_SORT } from '../../algorithms/index';
+import { getAlgorithm, BUBBLE_SORT, INSERTION_SORT, MERGE_SORT, QUICK_SORT, HEAP_SORT } from "../../algorithms/index";
 
 const Sidebar = () => {
   const { state, dispatch } = useContext(GlobalStateContext);
@@ -16,7 +16,7 @@ const Sidebar = () => {
     dispatch({ type: CHANGE_SIZE, payload: { size: e.target.value } });
   };
 
-  const onDelaySliderChange = e => {
+  const onDelaySliderChange = (e) => {
     dispatch({ type: CHANGE_DELAY, payload: { delay: e.target.value } });
   };
 
@@ -48,12 +48,12 @@ const Sidebar = () => {
 
     return () => {
       clearInterval(timerId);
-    }
-  }, [playing, delay])
+    };
+  }, [playing, delay]);
 
-  const onSelectChange = e => {
+  const onSelectChange = (e) => {
     dispatch({ type: CHANGE_ALGORITHM, payload: { sortingAlgorithm: e.target.value } });
-  }
+  };
 
   const onPlayToggleClick = async (e) => {
     dispatch({ type: TOGGLE_PLAY, payload: { playing: !playing } });
@@ -67,7 +67,9 @@ const Sidebar = () => {
           <span className="button_title">{playing ? "Pause" : "Play"}</span>
         </button>
         <button className="button is-primary" id="randomize_button" disabled={playing} onClick={onRandomizeClick}>
-          <span className="icon"><i className="fas fa-random" /></span>
+          <span className="icon">
+            <i className="fas fa-random" />
+          </span>
           <span className="button_title">Randomize</span>
         </button>
         <div className="slider">
@@ -88,6 +90,20 @@ const Sidebar = () => {
             <option value={HEAP_SORT}>Heap Sort</option>
           </select>
         </div>
+      </div>
+      <div className="footer_container">
+        {/* <button className="button is-small is-primary">
+          <span className="icon">
+            <i class="fas fa-question" />
+          </span>
+          <span className="">Help</span>
+        </button> */}
+        <a href="https://github.com/rohitkrishna094/react-sort" target="_blank" rel="noopener noreferrer" className="button is-small is-primary">
+          <span className="icon">
+            <i className="fab fa-github" />
+          </span>
+          <span>Star Me on Github</span>
+        </a>
       </div>
     </div>
   );
