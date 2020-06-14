@@ -46,4 +46,3 @@ Todo currently
 -----
 * Delay Bugs
 * Refactor hooks to top etc
-* add docs and footer

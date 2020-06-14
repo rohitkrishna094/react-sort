@@ -31,7 +31,6 @@ const GlobalStateProvider = ({ children }) => {
       case SWEEP:
         return { ...state, colors: generateSweepColors(state.size, action.payload.index) };
       case CHANGE_ALGORITHM:
-        console.log(action.payload.sortingAlgorithm);
         return { ...state, sortingAlgorithm: action.payload.sortingAlgorithm };
       case CHANGE_DELAY:
         return { ...state, delay: action.payload.delay };

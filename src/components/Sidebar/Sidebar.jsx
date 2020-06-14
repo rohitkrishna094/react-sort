@@ -1,31 +1,17 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import "./Sidebar.scss";
 import { GlobalStateContext } from "../../store/providers/GlobalStateProvider/GlobalStateProvider";
 import { CHANGE_SIZE, RANDOMIZE, TOGGLE_PLAY, CHANGE_ALGORITHM, CHANGE_DELAY } from "../../store/actionTypes/actionTypes";
 import { getAlgorithm, BUBBLE_SORT, INSERTION_SORT, MERGE_SORT, QUICK_SORT, HEAP_SORT } from "../../algorithms/index";
+import "./Sidebar.scss";
 
 const Sidebar = () => {
   const { state, dispatch } = useContext(GlobalStateContext);
   const { size, playing, arr, sortingAlgorithm, delay } = state;
+  const [timerId, setTimerId] = useState(0);
   const [dispatchList, setDispatchList] = useState([]);
   const dispatchListRef = useRef(dispatchList);
   dispatchListRef.current = dispatchList;
-  const [timerId, setTimerId] = useState(0);
 
-  const onSizeSliderChange = (e) => {
-    dispatch({ type: CHANGE_SIZE, payload: { size: e.target.value } });
-  };
-
-  const onDelaySliderChange = (e) => {
-    dispatch({ type: CHANGE_DELAY, payload: { delay: e.target.value } });
-  };
-
-  const onRandomizeClick = (e) => {
-    dispatch({ type: RANDOMIZE });
-  };
-
-  // console.log(delay);
-  // console.log(dispatchList.length, dispatchList);
   useEffect(() => {
     if (playing) {
       const sortFunction = getAlgorithm(sortingAlgorithm).algorithm;
@@ -57,6 +43,18 @@ const Sidebar = () => {
 
   const onPlayToggleClick = async (e) => {
     dispatch({ type: TOGGLE_PLAY, payload: { playing: !playing } });
+  };
+
+  const onSizeSliderChange = (e) => {
+    dispatch({ type: CHANGE_SIZE, payload: { size: e.target.value } });
+  };
+
+  const onDelaySliderChange = (e) => {
+    dispatch({ type: CHANGE_DELAY, payload: { delay: e.target.value } });
+  };
+
+  const onRandomizeClick = (e) => {
+    dispatch({ type: RANDOMIZE });
   };
 
   return (

@@ -1,9 +1,9 @@
 import React from "react";
-import "./App.scss";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Visualizer from "./components/Visualizer/Visualizer";
-import "bulma/css/bulma.css";
 import { GlobalStateProvider } from "./store/providers/GlobalStateProvider/GlobalStateProvider";
+import "./App.scss";
+import "bulma/css/bulma.css";
 
 function App() {
   return (

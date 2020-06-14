@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import "./Visualizer.scss";
 import { Bar } from "react-chartjs-2";
 import { GlobalStateContext } from "../../store/providers/GlobalStateProvider/GlobalStateProvider";
+import "./Visualizer.scss";
 
 const Visualizer = () => {
-  const { state, dispatch } = useContext(GlobalStateContext);
+  const { state } = useContext(GlobalStateContext);
   const { arr, colors } = state;
 
   const data = {
