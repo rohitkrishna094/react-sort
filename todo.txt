@@ -45,4 +45,4 @@ Phase 2:
 Todo currently
 -----
 * Delay Bugs
-* Refactor hooks to top etc
+* heap sort bug.

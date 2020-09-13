@@ -50,3 +50,15 @@ export const generateSweepColors = (size, index) => {
   }
   return colors;
 };
+
+export const getCompareFreq = (arr, indices) => {
+  const scale = 5;
+  // console.log("compareFreq", indices, arr.length, arr[indices[0]], arr[indices[1]]);
+  return (arr[indices[0]] + arr[indices[1]]) * scale;
+};
+
+export const getSweepFreq = (arr, index) => {
+  const scale = 10;
+  // console.log("sweepFreq", arr[index]);
+  return arr[index] * scale;
+};

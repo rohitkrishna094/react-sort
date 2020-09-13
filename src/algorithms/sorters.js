@@ -1,4 +1,4 @@
-import { COMPARE_INDEX, SWAP_INDEX, SWEEP } from "../store/actionTypes/actionTypes";
+import { COMPARE_INDEX, SWAP_INDEX, SWEEP } from '../store/actionTypes/actionTypes';
 
 // bubbleSort
 export const bubbleSort = (arr) => {
@@ -147,58 +147,46 @@ export const quickSort = (arr) => {
   return dispatchList;
 };
 
-// heapSort
+// heapSort new
 export const heapSort = (arr) => {
-  const _buildMaxHeap = (arr) => {
-    let i = Math.floor(arr.length / 2 - 1);
+  const _heapify = (arr, length, i) => {
+    let largest = i,
+      left = 2 * i + 1,
+      right = left + 1;
 
-    // Build a max heap out of
-    // all array elements passed in.
-    while (i >= 0) {
-      _heapify(arr, i, arr.length);
-      i -= 1;
+    if (left < length && arr[left] > arr[largest]) {
+      largest = left;
+      dispatchList.push({ type: COMPARE_INDEX, payload: { arr: [...arr], indices: [left, largest] } });
     }
-  };
-
-  const _heapify = (heap, i, max) => {
-    let index, leftChild, righChild;
-
-    while (i < max) {
-      index = i;
-      leftChild = 2 * i + 1;
-      righChild = leftChild + 1;
-      dispatchList.push({ type: COMPARE_INDEX, payload: { arr: [...heap], indices: [leftChild, index] } });
-      if (leftChild < max && heap[leftChild] > heap[index]) {
-        index = leftChild;
-      }
-      dispatchList.push({ type: COMPARE_INDEX, payload: { arr: [...heap], indices: [righChild, index] } });
-      if (righChild < max && heap[righChild] > heap[index]) {
-        index = righChild;
-      }
-      if (index === i) {
-        return;
-      }
-      swap(heap, i, index);
-      dispatchList.push({ type: SWAP_INDEX, payload: { arr: [...heap], indices: [i, index] } });
-      i = index;
+    if (right < length && arr[right] > arr[largest]) {
+      largest = right;
+      dispatchList.push({ type: COMPARE_INDEX, payload: { arr: [...arr], indices: [right, largest] } });
     }
+
+    if (largest !== i) {
+      [arr[i], arr[largest]] = [arr[largest], arr[i]];
+      dispatchList.push({ type: SWAP_INDEX, payload: { arr: [...arr], indices: [i, largest] } });
+      _heapify(arr, length, largest);
+    }
+    return arr;
   };
 
   // start here
   const dispatchList = [];
-  // Build our max heap.
-  _buildMaxHeap(arr);
+  let length = arr.length,
+    i = Math.floor(length / 2 - 1),
+    k = length - 1;
 
-  // Find last element.
-  let lastElement = arr.length - 1;
+  while (i >= 0) {
+    _heapify(arr, length, i);
+    i--;
+  }
 
-  // Continue heap sorting until we have
-  // just one element left in the array.
-  while (lastElement > 0) {
-    swap(arr, 0, lastElement);
-    dispatchList.push({ type: SWAP_INDEX, payload: { arr: [...arr], indices: [0, lastElement] } });
-    _heapify(arr, 0, lastElement);
-    lastElement -= 1;
+  while (k >= 0) {
+    [arr[0], arr[k]] = [arr[k], arr[0]];
+    dispatchList.push({ type: SWAP_INDEX, payload: { arr: [...arr], indices: [0, k] } });
+    _heapify(arr, k, 0);
+    k--;
   }
   sweep(arr, dispatchList);
   return dispatchList;

@@ -2,15 +2,29 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import { GlobalStateContext } from "../../store/providers/GlobalStateProvider/GlobalStateProvider";
 import { CHANGE_SIZE, RANDOMIZE, TOGGLE_PLAY, CHANGE_ALGORITHM, CHANGE_DELAY } from "../../store/actionTypes/actionTypes";
 import { getAlgorithm, BUBBLE_SORT, INSERTION_SORT, MERGE_SORT, QUICK_SORT, HEAP_SORT } from "../../algorithms/index";
+import { Synth, Transport } from 'tone';
 import "./Sidebar.scss";
 
 const Sidebar = () => {
   const { state, dispatch } = useContext(GlobalStateContext);
-  const { size, playing, arr, sortingAlgorithm, delay } = state;
+  const { size, playing, arr, sortingAlgorithm, delay, freq } = state;
   const [timerId, setTimerId] = useState(0);
   const [dispatchList, setDispatchList] = useState([]);
   const dispatchListRef = useRef(dispatchList);
   dispatchListRef.current = dispatchList;
+  const [synth, setSynth] = useState();
+
+  useEffect(() => {
+    Transport.swing = 0.5;
+    Transport.swingSubdivision = '16n';
+    setSynth(new Synth().toMaster());
+  }, []);
+
+  useEffect(() => {
+    if (synth) {
+      synth.triggerAttackRelease(freq, "2048n");
+    }
+  }, [dispatchList]);
 
   useEffect(() => {
     if (playing) {
