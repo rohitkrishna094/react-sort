@@ -4,7 +4,7 @@
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  
+
   .footer_container {
     margin: auto auto 0 auto;
     button,
@@ -51,6 +51,13 @@
       &:disabled {
         cursor: not-allowed;
       }
+    }
+  }
+
+  .mute-container {
+    color: white;
+    input[type='checkbox'] {
+      margin-right: 10px;
     }
   }
 

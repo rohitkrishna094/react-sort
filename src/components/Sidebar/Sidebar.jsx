@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
-import { GlobalStateContext } from "../../store/providers/GlobalStateProvider/GlobalStateProvider";
-import { CHANGE_SIZE, RANDOMIZE, TOGGLE_PLAY, CHANGE_ALGORITHM, CHANGE_DELAY } from "../../store/actionTypes/actionTypes";
-import { getAlgorithm, BUBBLE_SORT, INSERTION_SORT, MERGE_SORT, QUICK_SORT, HEAP_SORT } from "../../algorithms/index";
+import React, { useContext, useState, useEffect, useRef } from 'react';
+import { GlobalStateContext } from '../../store/providers/GlobalStateProvider/GlobalStateProvider';
+import { CHANGE_SIZE, RANDOMIZE, TOGGLE_PLAY, CHANGE_ALGORITHM, CHANGE_DELAY } from '../../store/actionTypes/actionTypes';
+import { getAlgorithm, BUBBLE_SORT, INSERTION_SORT, MERGE_SORT, QUICK_SORT, HEAP_SORT } from '../../algorithms/index';
 import { Synth, Transport } from 'tone';
-import "./Sidebar.scss";
+import './Sidebar.scss';
 
 const Sidebar = () => {
   const { state, dispatch } = useContext(GlobalStateContext);
@@ -13,6 +13,7 @@ const Sidebar = () => {
   const dispatchListRef = useRef(dispatchList);
   dispatchListRef.current = dispatchList;
   const [synth, setSynth] = useState();
+  const [mute, setMute] = useState(false);
 
   useEffect(() => {
     Transport.swing = 0.5;
@@ -21,8 +22,8 @@ const Sidebar = () => {
   }, []);
 
   useEffect(() => {
-    if (synth) {
-      synth.triggerAttackRelease(freq, "2048n");
+    if (synth && !mute) {
+      synth.triggerAttackRelease(freq, '2048n');
     }
   }, [dispatchList]);
 
@@ -71,12 +72,16 @@ const Sidebar = () => {
     dispatch({ type: RANDOMIZE });
   };
 
+  const onMuteChange = (e) => {
+    setMute(!mute);
+  };
+
   return (
     <div className="sidebar_container">
       <div className="sidebar">
         <button className="button is-primary" id="play_button" onClick={onPlayToggleClick}>
           <span className="icon">{playing ? <i className="fas fa-pause" /> : <i className="fas fa-play" />}</span>
-          <span className="button_title">{playing ? "Pause" : "Play"}</span>
+          <span className="button_title">{playing ? 'Pause' : 'Play'}</span>
         </button>
         <button className="button is-primary" id="randomize_button" disabled={playing} onClick={onRandomizeClick}>
           <span className="icon">
@@ -101,6 +106,12 @@ const Sidebar = () => {
             <option value={QUICK_SORT}>Quick Sort</option>
             <option value={HEAP_SORT}>Heap Sort</option>
           </select>
+        </div>
+        <div className="mute-container">
+          <label className="checkbox">
+            <input type="checkbox" onChange={onMuteChange} />
+            <span className="mute-span">Mute Sound</span>
+          </label>
         </div>
       </div>
       <div className="footer_container">
