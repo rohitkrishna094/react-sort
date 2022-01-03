@@ -17,3 +17,4 @@ React-Sort is a sorting visualizer which visualizes different sorting algorithms
 - [Tonejs for sound](https://tonejs.github.io/)
 
 ## Example Screenshot
+![Example Screenshot](./assets/sort.gif)
